@@ -1,6 +1,10 @@
 #pragma once
 #include "RobotMap.h"
 
+// Local Files
+#include "strategies/DriveSystem.h"
+#include "MotorControl.h"
+
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider {
  public:
 	void RobotInit() override;
