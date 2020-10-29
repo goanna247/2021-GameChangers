@@ -12,7 +12,9 @@ MotorControl mc;
 // Robot Logiccd
 void Robot::RobotInit() {}
 
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() {
+	mc.idleUpdate();
+}
 
 // Dissabled Robot Logic
 void Robot::DisabledInit() {}
@@ -27,7 +29,10 @@ void Robot::TeleopInit() {
 
 }
 void Robot::TeleopPeriodic() {
-	mc.update();
+	currentTimeStamp = Timer::GetFPGATimestamp();
+	dt = currentTimeStamp - lastTimeStamp;
+	mc.update(dt);
+	lastTimeStamp = currentTimeStamp;
 }
 
 // Test Logic4
