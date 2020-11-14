@@ -1,0 +1,9 @@
+	// put your logic code here
+	// encoder = leftGearbox.encoder->GetEncoderRotations();
+
+	// leftPower = PID(1.5, dt, encoder);
+
+
+	// leftPower += abs(xbox.GetAxis(wml::controllers::XboxController::kLeftYAxis)) > 0.15 ? xbox.GetAxis(wml::controllers::XboxController::kLeftYAxis) : 0;
+
+	// leftGearbox.transmission->SetVoltage(12 * leftPower);

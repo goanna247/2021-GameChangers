@@ -2,14 +2,15 @@
 
 wml::controllers::XboxController xbox{ 0 };
 
-double kP = 0.8;
-double kI = 2;
+double kP = 0.5;
+double kI = 0.0001;
 double kD = 0.02;
 
 double previousError = 0;
 
 
 double leftPower = 0;
+double rightPower = 0.2;
 double encoder = 0;
 
 double MotorControl::PID(double goal, double dt, double input) {
@@ -25,19 +26,25 @@ double MotorControl::PID(double goal, double dt, double input) {
 
 
 void MotorControl::idleUpdate() {
-	std::cout << "Encoder: " << encoder << std::endl;
-	std::cout << "LeftPower: " << leftPower << std::endl;
+
+	// std::cout << "right encoder rotations " << rightSRX.GetEncoderRotations() << std::endl;
+	// std::cout << "right power" << rightPower << std::endl;
+	// std::cout << "Encoder: " << encoder << std::endl;
+	// std::cout << "LeftPower: " << leftPower << std::endl;
 }
 
 
 void MotorControl::update(double dt) {
-	// put your logic code here
-	encoder = leftGearbox.encoder->GetEncoderRotations();
-
-	leftPower = PID(1.5, dt, encoder);
+	double deadZone = 0.15;
 
 
-	leftPower += abs(xbox.GetAxis(wml::controllers::XboxController::kLeftYAxis)) > 0.15 ? xbox.GetAxis(wml::controllers::XboxController::kLeftYAxis) : 0;
+	if (abs(xbox.GetAxis(wml::controllers::XboxControllers::kRightYAxis)) > deadZone) {
+		rightPower = xbox.GetAxis(wml::controllers::XboxControllers::kRightYAxis);
+	} else {
+		rightPower = 0;
+	}
+	
 
-	leftGearbox.transmission->SetVoltage(12 * leftPower);
+	rightSRX.Set(rightPower);
+	rightSPX.Set(rightPower);
 }
