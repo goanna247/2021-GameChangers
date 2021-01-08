@@ -9,22 +9,33 @@ double currentTime;
 double lastTimeStamp;
 double dt; //stands for delta time 
 
-//add other variables here
-double sparkSpeed;
-double talonSpeed;
-double constexpr deadzone = 0.1;
+//variables 
+double leftSpeed;
+double rightSpeed;
+double const deadzone = 0.1;
 
 // Robot Logic
 void Robot::RobotInit() {
 	//init controllers 
-	xbox = new frc::XboxController(0);
+	driver = new frc::XboxController(0);
+	coDriver = new frc::XboxController(1);
 
-	//Motor examples 
-	_sparkMotor = new frc::Spark(0);
-	_talonMotor = new wml::TalonSrx(1);
+	//Motors
+	_leftMotor1 = new wml::VictorSpx(99);
+	_leftMotor2 = new wml::VictorSpx(99);
+	_leftMotor3 = new wml::VictorSpx(99);
 
-	_sparkMotor->SetInverted(true);
-	_talonMotor->SetInverted(false);
+	_rightMotor1 = new wml::VictorSpx(99);
+	_rightMotor2 = new wml::VictorSpx(99);
+	_rightMotor3 = new wml::VictorSpx(99);
+
+	_leftMotor1->SetInverted(false);
+	_leftMotor2->SetInverted(false);
+	_leftMotor3->SetInverted(false);
+
+	_rightMotor1->SetInverted(false);
+	_rightMotor2->SetInverted(false);
+	_rightMotor3->SetInverted(false);
 }
 
 void Robot::RobotPeriodic() {}
@@ -57,6 +68,19 @@ void Robot::TeleopPeriodic() {
 
 	// ^ the equivilant using a conditional statement 
 	//talonSpeed = xbox->GetTriggerAxis(hand::kRightHand) > deadzone ? xbox->GetTriggerAxis(hand::kRightHand) : 0; _talonMotor->Set(talonSpeed);
+
+
+	leftSpeed = driver->GetTriggeredAxis(hand::kLeftHand);
+	if (abs(leftSpeed) >= deadzone) {
+		_leftMotor1->Set
+	}
+
+	
+
+
+
+
+
 
 	if(xbox->GetXButton()) {
 		_solenoid.SetTarget(wml::actuators::BinaryActuatorState::kForward);

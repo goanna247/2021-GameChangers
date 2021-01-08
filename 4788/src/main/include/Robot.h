@@ -50,14 +50,19 @@ class Robot : public frc::TimedRobot {
 	void TestPeriodic() override;
 
 	//controllers
-	frc::XboxController *xbox;
+	frc::XboxController *driver;
+	frc::XboxController *coDriver;
 
  private:
-	//motors
-	frc::Spark *_sparkMotor;
-	wml::TalonSrx *_talonMotor;
+	//we are just going to assume all the motors are victors 
+	wml::VictorSpx _leftMotor1;
+	wml::VictorSpx _leftMotor2;
+	wml::VictorSpx _leftMotor3;
+	wml::VictorSpx _rightMotor1;
+	wml::VictorSpx _rightMotor2;
+	wml::VictorSpx _rightMotor3;
 
-	//pneumatics stuff
+	//pneumatics stuff, cant remember if we have neumatics so im going to keep this 
 	wml::actuators::Compressor _compressor{};
 	wml::actuators::DoubleSolenoid _solenoid{0, 1, 0.2};
 };
