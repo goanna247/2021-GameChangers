@@ -35,9 +35,14 @@ struct ControlMap {
 	static const double MaxDrivetrainSpeed;
 	static const double TrackWidth, TrackDepth, WheelRadius, Mass;
 
+	//falcon values 
+	static const int FalconPort;
 
 	// ------------------ Controls ------------------
 	
 	// Drivetrain
 	static const wml::controllers::tAxis DrivetrainLeft, DrivetrainRight;
+	
+	//Falcons 
+	static const wml::controllers::tButton FalconRun;
 };
