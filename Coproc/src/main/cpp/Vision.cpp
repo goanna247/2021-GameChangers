@@ -9,7 +9,7 @@ void Vision::Init() {
 	CJ::Core::init();
 
 	cam.config = {
-		0,
+		1,
 		cv::CAP_ANY,
 		60,
 		640,

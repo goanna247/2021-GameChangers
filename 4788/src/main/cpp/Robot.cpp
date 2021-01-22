@@ -47,6 +47,6 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {}
 
-// Test Logic4
+// Test Logic
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
