@@ -6,7 +6,7 @@
 /**
  * Intake manual strategy Constructor
  */
-IntakeManualStrategy::IntakeManualStrategy(std::String name, Intake &intake, Controllers &contGroup) : _intake(intake), _contGroup(contGroup) {}
+IntakeManualStrategy::IntakeManualStrategy(std::string name, Intake &intake, Controllers &contGroup) : Strategy(name), _intake(intake), _contGroup(contGroup) {}
 
 /**
  * Intake manual strategy logic (auto called by the strategy controller)
@@ -25,7 +25,7 @@ void IntakeManualStrategy::OnUpdate(double dt) {
 /**
  * Intake auto strategy constructor
  */
-IntakeAutoStrategy::IntakeAutoStrategy(Intake &intake, Controllers &contGroup) : _intake(intake), _contGroup(contGroup) {}
+IntakeAutoStrategy::IntakeAutoStrategy(std::string name, Intake &intake, Controllers &contGroup) : Strategy(name), _intake(intake), _contGroup(contGroup) {}
 
 /**
  * Auto on update logic. (Called by strategy controller. In this strategy we just have the intake always on)

@@ -37,7 +37,7 @@ class IntakeAutoStrategy : public wml::Strategy {
 	/**
 	 * Contructor for passing in intaje and controllers for auto. (Might want to pass in sensors aswell)
 	 */
-	IntakeAutoStrategy(Intake &intake, Controllers &contGroup);
+	IntakeAutoStrategy(std::string name, Intake &intake, Controllers &contGroup);
 
 	/**
 	 * On Update logic. Auto called from strategy controller (hence override). Pass in delta time 
