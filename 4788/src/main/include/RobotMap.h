@@ -70,7 +70,14 @@ struct RobotMap {
 	wml::controllers::XboxController xbox2{ ControlMap::Xbox2Port };
 	wml::controllers::SmartControllerGroup contGroup{ xbox1, xbox2};
 
-	struct FalconSystem {
-		wml::TalonFX falconMotor { ControlMap::falconPort, 2048};
-	}; FalconSystem falconSystem;
+	struct IntakeSystem {
+		// Motors
+		wml::TalonSrx motor {ControlMap::intakePort, ControlMap::intakeEncoderTicks};
+		wml::actuators::MotorVoltageController motorGroup = wml::actuators::MotorVoltageController::Group(motor);
+
+		wml::Gearbox intakeGearbox{ &motorGroup, &motor };
+
+		// solenoids
+		wml::actuators::DoubleSolenoid intakeDown{ ControlMap::PCModule, ControlMap::intakeSolenoidPort1, ControlMap::intakeSolenoidPort2, 0.1 };
+	}; IntakeSystem intakeSystem;
 };

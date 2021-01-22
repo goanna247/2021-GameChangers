@@ -30,13 +30,15 @@ struct ControlMap {
 	// PCM1
 	static const int PCModule;
 
-	// Falcon
-	static const int falconPort;
+	// Intake System
+	static const int intakePort, intakeSolenoidPort1, intakeSolenoidPort2, intakeEncoderTicks;
+	static const double IntakeAutoSpeed;
+
 
 	// ------------------ Controls ------------------
 	
-	//falcon
-	static const wml::controllers::tAxis FalconOn;
-	static const wml::controllers::tButton EncoderRead;
-
+	// Intake
+	static const wml::controllers::tAxis Intake;
+	static const wml::controllers::tAxis Outake;
+	static const wml::controllers::tButton DeployIntake;
 };
