@@ -22,28 +22,11 @@ const double ControlMap::TriggerDeadzone = 0.15;
 // PCMs
 const int ControlMap::PCModule = 1;
 
-// Left Drive
-const int ControlMap::FLport = 12;
-const int ControlMap::BLport = 13;
+// Falcon
+const int ControlMap::falconPort = 99;
 
-// Right Drive
-const int ControlMap::FRport = 10;
-const int ControlMap::BRport = 11;
+// ------------------ Controls ------------------
 
-// Drivetrain speed
-const double ControlMap::MaxDrivetrainSpeed = 0.8;
-
-// Robot Values
-const double ControlMap::TrackWidth = 0.56;
-const double ControlMap::TrackDepth = 0.60;
-const double ControlMap::WheelRadius = 0.0762; // In meters
-const double ControlMap::Mass = 50; // KG's
-
-//Falcon values
-
-
-// ------------------ Values ------------------
-const tAxis ControlMap::DrivetrainLeft{ Driver, XboxController::kLeftYAxis };
-const tAxis ControlMap::DrivetrainRight{ Driver, XboxController::kRightYAxis };
-
-const tButton ControlMap::FalconRun{ CoDriver, XboxController::GetX };
+//falcon 
+const tAxis ControlMap::FalconOn{ CoDriver, XboxController::kRightYAxis };
+const tButton ControlMap::EncoderRead{ CoDriver, XboxController::kX };

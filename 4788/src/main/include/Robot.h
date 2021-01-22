@@ -1,5 +1,13 @@
 #pragma once
+
+/**
+ * Local Files
+ */
 #include "RobotMap.h"
+
+// Subsystems
+#include "strategies/FalconStrat.h"
+
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider {
  public:
@@ -19,7 +27,7 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	void TestPeriodic() override;
 
  private:
-	// Istances
+	// Instances
 	RobotMap robotMap;
-	wml::Drivetrain *drivetrain; // WML drivetrain (Not local)
+	Falcon *falcon;
 };

@@ -30,19 +30,13 @@ struct ControlMap {
 	// PCM1
 	static const int PCModule;
 
-	// Drive System
-	static const int FLport, FRport, BLport, BRport;
-	static const double MaxDrivetrainSpeed;
-	static const double TrackWidth, TrackDepth, WheelRadius, Mass;
-
-	//falcon values 
-	static const int FalconPort;
+	// Falcon
+	static const int falconPort;
 
 	// ------------------ Controls ------------------
 	
-	// Drivetrain
-	static const wml::controllers::tAxis DrivetrainLeft, DrivetrainRight;
-	
-	//Falcons 
-	static const wml::controllers::tButton FalconRun;
+	//falcon
+	static const wml::controllers::tAxis FalconOn;
+	static const wml::controllers::tButton EncoderRead;
+
 };

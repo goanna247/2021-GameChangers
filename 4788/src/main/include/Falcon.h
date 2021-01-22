@@ -1,20 +1,28 @@
 #pragma once 
 
-#include "controllers/Controllers.h"
+#include "strategy/Strategy.h"
 #include "RobotMap.h"
 
-class Falcon {
+enum class FalconStates {
+  ON,
+  OFF,
+};
+
+class Falcon : public wml::StrategySystem {
   public:
-    Falcon(wml::TalonFX _falconMotor,
-           wml::controllers::SmartControllerGroup &contGroup);
+    Falcon(wml::TalonFX &falconMotor);
 
-    void TeleopOnUpdate(double dt);
-    void AutoOnUpdate(double dt);
-    void TestOnUpdate(double dt);
+    void setPower(double power = 0);
+    void encoder();
 
-  private: 
-    wml::controllers::SmartControllerGroup &_contGroup
+    void updateFalcon(double dt);
 
-    frc::Timer timer;
-    double FalconPower = 0;
-}
+    void update(double dt);
+
+  private:
+    wml::TalonFX &_falconMotor;
+
+    FalconStates _falconState{ FalconStates::OFF };
+
+    double _power;
+};
