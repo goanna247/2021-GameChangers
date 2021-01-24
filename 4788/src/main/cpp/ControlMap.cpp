@@ -41,8 +41,8 @@ const double ControlMap::Mass = 50; // KG's
 
 // Intake
 const int ControlMap::intakePort = 99;
-const int ControlMap::intakeSolenoidPort1 = 0;
-const int ControlMap::intakeSolenoidPort2 = 1;
+const int ControlMap::intakeSolenoidPort1 = 99;
+const int ControlMap::intakeSolenoidPort2 = 99;
 const int ControlMap::intakeEncoderTicks = 2048;
 const double ControlMap::IntakeAutoSpeed = 0.3;
 
@@ -56,9 +56,9 @@ const tAxis ControlMap::DrivetrainLeft{ Driver, XboxController::kLeftYAxis };
 const tAxis ControlMap::DrivetrainRight{ Driver, XboxController::kRightYAxis };
 
 // Intake
-const tAxis ControlMap::Intake{ Driver, XboxController::kRightThrottle };
-const tAxis ControlMap::Outake{ Driver, XboxController::kLeftThrottle };
-const tButton ControlMap::DeployIntake{ Driver, XboxController::kA };
+const tAxis ControlMap::Intake{ CoDriver, XboxController::kRightThrottle };
+const tAxis ControlMap::Outake{ CoDriver, XboxController::kLeftThrottle };
+const tButton ControlMap::DeployIntake{ CoDriver, XboxController::kA };
 
 //falcon 
 const tAxis ControlMap::FalconOn{ CoDriver, XboxController::kRightYAxis };

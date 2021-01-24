@@ -27,23 +27,3 @@ class IntakeManualStrategy : public wml::Strategy {
 	Intake &_intake;
 	Controllers &_contGroup;
 };
-
-/**
- * Main class for the strategies of the Intake (Main do this then that logic for auto control)
- */
-class IntakeAutoStrategy : public wml::Strategy {
- public:
-
-	/**
-	 * Contructor for passing in intaje and controllers for auto. (Might want to pass in sensors aswell)
-	 */
-	IntakeAutoStrategy(std::string name, Intake &intake, Controllers &contGroup);
-
-	/**
-	 * On Update logic. Auto called from strategy controller (hence override). Pass in delta time 
-	 */
-	void OnUpdate(double dt) override;
-
-	Intake &_intake;
-	Controllers &_contGroup;
-};

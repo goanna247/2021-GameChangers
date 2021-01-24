@@ -58,9 +58,7 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 // Auto Robot Logic
-void Robot::AutonomousInit() {
-	Schedule(std::make_shared<IntakeAutoStrategy>("Intake Auto", *intake, robotMap.contGroup), true);
-}
+void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 // Manual Robot Logic
