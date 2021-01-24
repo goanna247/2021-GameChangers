@@ -7,6 +7,7 @@
 
 // Subsystems
 #include "strategies/IntakeStrategies.h"
+#include "strategies/FalconStrategy.h"
 
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider {
@@ -30,4 +31,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	// Instances
 	RobotMap robotMap;
 	Intake *intake; // Intake
+	Falcon *falcon;
 };

@@ -80,4 +80,8 @@ struct RobotMap {
 		// solenoids
 		wml::actuators::DoubleSolenoid intakeDown{ ControlMap::PCModule, ControlMap::intakeSolenoidPort1, ControlMap::intakeSolenoidPort2, 0.1 };
 	}; IntakeSystem intakeSystem;
+
+	struct FalconSystem {
+		wml::TalonFX falconMotor { ControlMap::falconPort, 2048};
+	}; FalconSystem falconSystem;
 };

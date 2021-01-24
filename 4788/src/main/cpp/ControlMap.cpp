@@ -29,9 +29,16 @@ const int ControlMap::intakeSolenoidPort2 = 1;
 const int ControlMap::intakeEncoderTicks = 2048;
 const double ControlMap::IntakeAutoSpeed = 0.3;
 
+// Falcon
+const int ControlMap::falconPort = 99;
+
 // ------------------ Controls ------------------
 
 // Intake
 const tAxis ControlMap::Intake{ Driver, XboxController::kRightThrottle };
 const tAxis ControlMap::Outake{ Driver, XboxController::kLeftThrottle };
 const tButton ControlMap::DeployIntake{ Driver, XboxController::kA };
+
+//falcon 
+const tAxis ControlMap::FalconOn{ CoDriver, XboxController::kRightYAxis };
+const tButton ControlMap::EncoderRead{ CoDriver, XboxController::kX };

@@ -34,6 +34,8 @@ struct ControlMap {
 	static const int intakePort, intakeSolenoidPort1, intakeSolenoidPort2, intakeEncoderTicks;
 	static const double IntakeAutoSpeed;
 
+	// Falcon
+	static const int falconPort;
 
 	// ------------------ Controls ------------------
 	
@@ -41,4 +43,8 @@ struct ControlMap {
 	static const wml::controllers::tAxis Intake;
 	static const wml::controllers::tAxis Outake;
 	static const wml::controllers::tButton DeployIntake;
+
+	//falcon
+	static const wml::controllers::tAxis FalconOn;
+	static const wml::controllers::tButton EncoderRead;
 };

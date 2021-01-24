@@ -7,16 +7,19 @@ double currentTimeStamp;
 double lastTimeStamp;
 double dt;
 
-// Robot Logiccd
+// Robot Logic
 void Robot::RobotInit() {
 	// Init the controllers
 	ControlMap::InitsmartControllerGroup(robotMap.contGroup);
 
 	intake = new Intake(robotMap.intakeSystem.intakeGearbox, robotMap.intakeSystem.intakeDown);
-
 	intake->SetDefault(std::make_shared<IntakeManualStrategy>("Intake Manual", *intake, robotMap.contGroup));
-
 	StrategyController::Register(intake);
+
+	falcon = new Falcon(robotMap.falconSystem.falconMotor);
+	falcon->SetDefault(std::make_shared<FalconStrategy>("Falcon Manual ", *falcon, robotMap.contGroup));
+	StrategyController::Register(falcon);
+
 }
 
 void Robot::RobotPeriodic() {
@@ -26,6 +29,7 @@ void Robot::RobotPeriodic() {
 	// Update our controllers and strategy
 	StrategyController::Update(dt);
 	intake->update(dt);
+	falcon->update(dt);
 	NTProvider::Update();
 
 	lastTimeStamp = currentTimeStamp;
@@ -44,6 +48,7 @@ void Robot::AutonomousPeriodic() {}
 // Manual Robot Logic
 void Robot::TeleopInit() {
 	Schedule(intake->GetDefaultStrategy(), true); // Use default manual strategy for intake
+	Schedule(falcon->GetDefaultStrategy(), true);
 }
 void Robot::TeleopPeriodic() {}
 
