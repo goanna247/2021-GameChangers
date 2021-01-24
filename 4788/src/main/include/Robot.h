@@ -6,6 +6,7 @@
 #include "RobotMap.h"
 
 // Subsystems
+#include "strategies/DriveSystem.h"
 #include "strategies/IntakeStrategies.h"
 #include "strategies/FalconStrategy.h"
 
@@ -30,6 +31,7 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
  private:
 	// Instances
 	RobotMap robotMap;
+	wml::Drivetrain *drivetrain;
 	Intake *intake; // Intake
 	Falcon *falcon;
 };
