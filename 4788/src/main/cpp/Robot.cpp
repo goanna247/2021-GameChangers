@@ -9,10 +9,8 @@ double currentTime;
 double lastTimeStamp;
 double dt; //stands for delta time 
 
-//add other variables here
-
 double falconSpeed;
-double const deadzone = 0.1;
+double constexpr deadzone = 0.1;
 
 // Robot Logic
 void Robot::RobotInit() {
@@ -20,10 +18,9 @@ void Robot::RobotInit() {
 	xbox = new frc::XboxController(0);
 
 	//Falcon motor 
-	_falcon = new wml::TalonFX(4);
+	_falcon = new wml::TalonFX{99, 2048};
 
 	_falcon->SetInverted(false);
-
 }
 
 void Robot::RobotPeriodic() {}
@@ -47,14 +44,11 @@ void Robot::TeleopPeriodic() {
 	falconSpeed = xbox->GetY(hand::kRightHand);
 	if (abs(falconSpeed) >= deadzone) {
 		_falcon->Set(0.1);
+		std::cout << _falcon->GetEncoderTicks() << std::endl;
 	} else {
 		_falcon->Set(0);
 	}
 
-	_compressor.Update(dt);
-	_solenoid.Update(dt);
-
-	if (_solenoid.IsDone()) _solenoid.Stop();
 	lastTimeStamp = currentTime;
 }
 

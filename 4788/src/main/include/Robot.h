@@ -56,8 +56,4 @@ class Robot : public frc::TimedRobot {
 	//motors
 	wml::TalonFX *_falcon;
 
-	//pneumatics stuff
-	wml::actuators::Compressor _compressor{};
-	wml::actuators::DoubleSolenoid _solenoid{0, 1, 0.2};
-
 };
