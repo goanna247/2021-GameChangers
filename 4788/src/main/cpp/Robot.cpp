@@ -16,7 +16,7 @@ double constexpr deadzone = 0.05;
 void Robot::RobotInit() {
 	xbox = new frc::XboxController(0);
 
-	_talonMotor = new wml::TalonSrx(99);
+	_talonMotor = new wml::TalonSrx(8);
 	_talonMotor->SetInverted(false);
 }
 
