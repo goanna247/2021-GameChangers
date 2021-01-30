@@ -54,5 +54,12 @@ class Robot : public frc::TimedRobot {
 	frc::XboxController *xbox;
 
  private:
-	wml::TalonSrx *_talonMotor;
+	wml::TalonSrx *_shooterMotor;
+
+	wml::TalonSrx *_leftMotor;
+	wml::TalonSrx *_rightMotor;
+
+	wml::VictorSpx *_magMotor;
+	wml::VictorSpx *_fireMotor;
+	wml::VictorSpx *_intakeMotor;
 };
