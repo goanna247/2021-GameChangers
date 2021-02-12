@@ -5,45 +5,53 @@ using namespace wml;
 
 using hand = frc::XboxController::JoystickHand;
 
-double currentTimeStamp;
+double currentTime;
 double lastTimeStamp;
-double dt;
+double dt; //stands for delta time 
 
-double motorSpeed = 0;
+double falconSpeed;
+double constexpr deadzone = 0.1;
 
-double constexpr deadzone = 0.05;
-//srx
+// Robot Logic
 void Robot::RobotInit() {
+	//init controllers 
 	xbox = new frc::XboxController(0);
 
-	_talonMotor = new wml::TalonSrx(8);
-	_talonMotor->SetInverted(false);
+	//Falcon motor 
+	_falcon = new wml::TalonFX{12, 2048};
+
+	_falcon->SetInverted(false);
 }
 
 void Robot::RobotPeriodic() {}
 
-
+// Dissabled Robot Logic
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
+// Auto Robot Logic
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 // Manual Robot Logic
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
-	currentTimeStamp = Timer::GetFPGATimestamp();
-	dt = currentTimeStamp - lastTimeStamp;
+	currentTime = Timer::GetFPGATimestamp();
+	dt = currentTime - lastTimeStamp;
 
-	motorSpeed = xbox->GetTriggerAxis(hand::kLeftHand);
-	if (motorSpeed >= deadzone) {
-		_talonMotor->Set(0.8);
+	//motor examples
+
+	falconSpeed = xbox->GetY(hand::kRightHand);
+	if (abs(falconSpeed) >= deadzone) {
+		_falcon->Set(falconSpeed/5);
+		std::cout << _falcon->GetEncoderTicks() << std::endl;
 	} else {
-		_talonMotor->Set(0);
+		_falcon->Set(0);
 	}
 
-	lastTimeStamp = currentTimeStamp;
+	lastTimeStamp = currentTime;
 }
 
+// Test Logic
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
