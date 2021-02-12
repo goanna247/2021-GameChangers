@@ -41,5 +41,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	Mag *mag;
 	Climber *climber;
 	Intake *intake;
-	// WayFinder *wayFinder;
+	wayfinder::WayFinder *wayFinder; // namespace wafinder (WayFinder class name)
 };
