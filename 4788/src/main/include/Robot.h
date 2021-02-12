@@ -26,7 +26,6 @@
 #include "sensors/LimitSwitch.h"
 #include "sensors/NavX.h"
 #include "sensors/PressureSensor.h"
-#include "Drivetrain.h"
 
 #include <cameraserver/CameraServer.h>
 #include <frc/DriverStation.h> 
@@ -35,24 +34,26 @@
 
 class Robot : public frc::TimedRobot {
  public:
-	void RobotInit() override;
-	void RobotPeriodic() override;
+  void RobotInit() override;
+  void RobotPeriodic() override;
 
-	void DisabledInit() override;
-	void DisabledPeriodic() override;
+  void DisabledInit() override;
+  void DisabledPeriodic() override;
 
-	void AutonomousInit() override;
-	void AutonomousPeriodic() override;
+  void AutonomousInit() override;
+  void AutonomousPeriodic() override;
 
-	void TeleopInit() override;
-	void TeleopPeriodic() override;
+  void TeleopInit() override;
+  void TeleopPeriodic() override;
 
-	void TestInit() override;
-	void TestPeriodic() override;
+  void TestInit() override;
+  void TestPeriodic() override;
 
-	// controllers
-	frc::XboxController *xbox;
+  //controllers
+  frc::XboxController *xbox;
 
  private:
-	wml::TalonSrx *_talonMotor;
+  //motors
+  wml::TalonFX *_falcon;
+
 };
