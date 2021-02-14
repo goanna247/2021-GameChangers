@@ -85,7 +85,11 @@ void Robot::TeleopInit() {
 	Schedule(mag->GetDefaultStrategy(), true);
 	Schedule(climber->GetDefaultStrategy(), true);
 }
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+	// std::cout << robotMap.driveSystem.FL.Encoder.GetEncoderTicks() << std::endl;
+	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderTicks() << std::endl;
+	std::cout << "Encoder RIGHT: " << robotMap.driveSystem.FR.GetEncoderTicks() << std::endl;
+}
 
 // Test Logic
 void Robot::TestInit() {}
