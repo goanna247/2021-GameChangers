@@ -35,41 +35,8 @@ struct ControlMap {
 	static const double MaxDrivetrainSpeed;
 	static const double TrackWidth, TrackDepth, WheelRadius, Mass;
 
-	//intake
-	static const int IntakePort, intakeSolenoidPort1, intakeSolenoidPort2;
-	static const double IntakeSpeed;
-
-
-	//mag
-	static const int MagPort, FirePort;
-	static const double MagBackSpeed;
-
-	//shooter
-	static const int ShooterPort;
-
-	//climber 
-	static const int WinchPort, ClimberSolenoidPort1, ClimberSolenoidPort2, ClimberPort;
-	static const double WinchDownPower, ClimberUpSpeed, climberAdjustSpeed;
-
-
 	// ------------------ Controls ------------------
 	
 	// Drivetrain
 	static const wml::controllers::tAxis DrivetrainLeft, DrivetrainRight;
-
-	//intake 
-	static const wml::controllers::tButton Intake, Outake, Down;
-
-	//mag
-	static const wml::controllers::tPOV MagBackwards;
-	static const wml::controllers::tAxis MagForwards;
-
-	//shooter
-
-	//climber 
-	static const wml::controllers::tButton ClimberTop, ClimberUp, ClimberDown;
-	static const wml::controllers::tPOV ClimberBottom, WinchDown;
-	static const wml::controllers::tAxis WinchUp;
-
-	
 };

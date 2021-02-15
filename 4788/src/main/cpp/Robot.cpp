@@ -18,6 +18,10 @@ void Robot::RobotInit() {
 	camera.SetFPS(30);
 	camera.SetResolution(160, 120);
 
+	auto camera2 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	camera2.SetFPS(30);
+	camera2.SetResolution(160, 120);
+
 	// Create wml drivetrain
 	drivetrain = new Drivetrain(robotMap.driveSystem.drivetrainConfig, robotMap.driveSystem.gainsVelocity);
 	wayFinder = new WayFinder(&robotMap.driveSystem.wfdConfig);
@@ -38,20 +42,8 @@ void Robot::RobotInit() {
 	StrategyController::Register(drivetrain);
 	NTProvider::Register(drivetrain);
 
-	intake = new Intake(robotMap.intakeSystem.intakeMotor, robotMap.intakeSystem.intakeDown);
-	intake->SetDefault(std::make_shared<IntakeActuation>("Intake Manual", *intake, robotMap.contGroup));
-	StrategyController::Register(intake);
-
-	mag = new Mag(robotMap.magSystem.magMotor, robotMap.contGroup);
-	mag->SetDefault(std::make_shared<MagStrategy>("Mag teleop strategy", *mag, robotMap.contGroup));
-	StrategyController::Register(mag);
-
-	climber = new Climber(robotMap.climberSystem.winch, robotMap.climberSystem.climberMotor, robotMap.climberSystem.climberSolenoid);
-	climber->SetDefault(std::make_shared<ClimberStrategy>("climber manual strategy", *climber, robotMap.contGroup));
-	StrategyController::Register(climber); 
 
 
-	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, *wp));
 }
 
 void Robot::RobotPeriodic() {
@@ -59,9 +51,6 @@ void Robot::RobotPeriodic() {
 	dt = currentTimeStamp - lastTimeStamp;
 
 	StrategyController::Update(dt);
-	intake->update(dt);
-	mag->update(dt);
-	climber->update(dt);
 	NTProvider::Update();
 
 	lastTimeStamp = currentTimeStamp;
@@ -74,21 +63,18 @@ void Robot::DisabledPeriodic() {}
 // Auto Robot Logic
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {
-	
-	std::cout << wayFinder->getCurrentLocation(&robotMap.driveSystem.wfdConfig, true);
+	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, *wp));
+	// std::cout << wayFinder->getCurrentLocation(&robotMap.driveSystem.wfdConfig, true);
 }
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
 	Schedule(drivetrain->GetDefaultStrategy(), true); // Use manual strategy
-	Schedule(intake->GetDefaultStrategy(), true);
-	Schedule(mag->GetDefaultStrategy(), true);
-	Schedule(climber->GetDefaultStrategy(), true);
 }
 void Robot::TeleopPeriodic() {
 	// std::cout << robotMap.driveSystem.FL.Encoder.GetEncoderTicks() << std::endl;
-	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderTicks() << std::endl;
-	std::cout << "Encoder RIGHT: " << robotMap.driveSystem.FR.GetEncoderTicks() << std::endl;
+	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderTicks() << std::endl;
+	// std::cout << "Encoder RIGHT: " << robotMap.driveSystem.FR.GetEncoderTicks() << std::endl;
 }
 
 // Test Logic
