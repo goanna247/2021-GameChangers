@@ -8,8 +8,12 @@ double currentTimeStamp;
 double lastTimeStamp;
 double dt;
 
+// wayfinder::Path::sSpline spline1;
+// wayfinder::Path::sPath path1;
+
 // Robot Logic
 void Robot::RobotInit() {
+
 
 	// Init the controllers
 	ControlMap::InitsmartControllerGroup(robotMap.contGroup);
@@ -24,7 +28,28 @@ void Robot::RobotInit() {
 
 	// Create wml drivetrain
 	drivetrain = new Drivetrain(robotMap.driveSystem.drivetrainConfig, robotMap.driveSystem.gainsVelocity);
-	wayFinder = new WayFinder(&robotMap.driveSystem.wfdConfig);
+	wayfinder::RobotControl::Config wfdConfig = {
+		drivetrain,
+		false,
+		true, 
+
+		//make these all controlmap variables later
+		0.3, //P 
+		0.001, //I  
+		0.024, //D
+
+		8.24, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
+		0.1524, //whel diameter in meters 
+		0.5, // max speed of the robot 
+		0.3 //max speed of the robot when turning 
+	};
+	wayFinder = new WayFinder(wfdConfig);
+
+	// Init paths
+	wp.path = wayFinder->buildPath(wp.spline1);
+
+
+	std::cout << "Robot Init" << std::endl;
 
 	// Zero Encoders
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
@@ -36,14 +61,11 @@ void Robot::RobotInit() {
 
 	// Inverts one side of our drivetrain
 	drivetrain->GetConfig().rightDrive.transmission->SetInverted(true);
-	drivetrain->GetConfig().leftDrive.transmission->SetInverted(false);
+	drivetrain->GetConfig().leftDrive.transmission->SetInverted(true);
 
 	// Register our systems to be called via strategy
 	StrategyController::Register(drivetrain);
 	NTProvider::Register(drivetrain);
-
-
-
 }
 
 void Robot::RobotPeriodic() {
@@ -52,6 +74,8 @@ void Robot::RobotPeriodic() {
 
 	StrategyController::Update(dt);
 	NTProvider::Update();
+	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderTicks() << std::endl;
+	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderTicks() << std::endl;
 
 	lastTimeStamp = currentTimeStamp;
 }
@@ -61,21 +85,27 @@ void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 // Auto Robot Logic
-void Robot::AutonomousInit() {}
-void Robot::AutonomousPeriodic() {
-	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, *wp));
-	// std::cout << wayFinder->getCurrentLocation(&robotMap.driveSystem.wfdConfig, true);
+void Robot::AutonomousInit() {
+	currentTimeStamp = Timer::GetFPGATimestamp();
+	dt = currentTimeStamp - lastTimeStamp;
+
+	if (wayFinder->followPath(wp.path, dt, false)) {
+		std::cout << "Path Complete" << std::endl;
+	} else {
+		std::cout << "Following Path" << std::endl;
+	}
+	// Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp));
+	// drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
+
+	lastTimeStamp = currentTimeStamp;
 }
+void Robot::AutonomousPeriodic() {}
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
 	Schedule(drivetrain->GetDefaultStrategy(), true); // Use manual strategy
 }
-void Robot::TeleopPeriodic() {
-	// std::cout << robotMap.driveSystem.FL.Encoder.GetEncoderTicks() << std::endl;
-	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderTicks() << std::endl;
-	// std::cout << "Encoder RIGHT: " << robotMap.driveSystem.FR.GetEncoderTicks() << std::endl;
-}
+void Robot::TeleopPeriodic() {}
 
 // Test Logic
 void Robot::TestInit() {}

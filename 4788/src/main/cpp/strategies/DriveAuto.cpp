@@ -5,10 +5,15 @@ DrivetrainAuto::DrivetrainAuto(std::string name, wml::Drivetrain &drivetrain, wa
   SetCanBeReused(true);
   SetCanBeInterrupted(true);
 
-  wp.path = wayFinder.buildPath(wp.spline1);
-
+  // _wp.path = wayFinder.buildPath(_wp.spline1);
+  
 }
 
 void DrivetrainAuto::OnUpdate(double dt) {
-  _wayFinder.followPath(_wp.path, dt, false);
+
+  if (_wayFinder.followPath(_wp.path, dt, false)) {
+    std::cout << "Path complete" << std::endl;
+  } else { 
+    std::cout << "Following path" << std::endl; 
+  }
 }

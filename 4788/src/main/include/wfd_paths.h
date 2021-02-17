@@ -15,5 +15,4 @@ struct wfd_paths {
   * Path to use with follower
   */
   wayfinder::Path::sPath path;
-
 };
