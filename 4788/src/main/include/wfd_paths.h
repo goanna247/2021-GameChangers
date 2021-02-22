@@ -5,10 +5,10 @@ struct wfd_paths {
   * Create a spline using waypoints and control points
   */
   wayfinder::Path::sSpline spline1{
-    {{0,0}, {0,5}}, // Waypoints
+    {{1,0}, {2,0}}, // Waypoints
 
-    {-4,0}, // Start control point
-    {10,0} // End Control point
+    {0,0}, // Start control point
+    {5,0} // End Control point
   };
 
   /**

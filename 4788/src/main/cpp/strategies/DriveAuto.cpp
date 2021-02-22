@@ -11,9 +11,9 @@ DrivetrainAuto::DrivetrainAuto(std::string name, wml::Drivetrain &drivetrain, wa
 
 void DrivetrainAuto::OnUpdate(double dt) {
 
-  if (_wayFinder.followPath(_wp.path, dt, false)) {
-    std::cout << "Path complete" << std::endl;
-  } else { 
-    std::cout << "Following path" << std::endl; 
-  }
+  // if (_wayFinder.followPath(_wp.path, dt, false)) {
+  //   std::cout << "Path complete" << std::endl;
+  // } else { 
+  //   std::cout << "Following path" << std::endl; 
+  // }
 }

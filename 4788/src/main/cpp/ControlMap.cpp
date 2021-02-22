@@ -36,7 +36,7 @@ const double ControlMap::MaxDrivetrainSpeed = 0.6;
 // Robot Values
 const double ControlMap::TrackWidth = 0.56;
 const double ControlMap::TrackDepth = 0.60;
-const double ControlMap::WheelRadius = 0.0762; // In meters
+const double ControlMap::WheelRadius = 0.1524; // In meters
 const double ControlMap::Mass = 50; // KG's
 
 // ------------------ Values ------------------
