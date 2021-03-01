@@ -20,5 +20,4 @@ class DrivetrainAuto : public wml::Strategy {
 	wml::Drivetrain &_drivetrain;
 	wayfinder::WayFinder &_wayFinder;
 	wfd_paths &_wp;
-
 };

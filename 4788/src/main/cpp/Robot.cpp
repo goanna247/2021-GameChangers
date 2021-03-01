@@ -13,9 +13,34 @@ double dt;
 
 wayfinder::RobotControl::Config wfdConfig;
 
+// double drive_kp = 0.3,
+// 				drive_ki = 0,
+// 				drive_kd = 0,
+
+// 				turn_kp = 0.000002,
+// 				turn_ki = 0,
+// 				turn_kd = 0;
+
+
+
+				// double drive_kp = 0.2,
+				// drive_ki = 0.0000001,
+				// drive_kd = -0.0006,
+
+				// turn_kp = 0.00002,
+				// turn_ki = 0.0000001,
+				// turn_kd = -0.00009;
+
+				double drive_kp = 0.2,
+				drive_ki = 0.001,
+				drive_kd = -0.0005,
+
+				turn_kp = 0.0005,
+				turn_ki = 0.00025,
+				turn_kd = -0.0005;
+
 // Robot Logic
 void Robot::RobotInit() {
-
 
 	// Init the controllers
 	ControlMap::InitsmartControllerGroup(robotMap.contGroup);
@@ -36,18 +61,18 @@ void Robot::RobotInit() {
 		true,
 
 		//make these all controlmap variables later
-		0.3, //P drive
-		0, //I drive
-		0, //D drive
+		&drive_kp, //P drive
+		&drive_ki, //I drive
+		&drive_kd, //D drive
 
-		0.2, //P angle
-		0, //I angle 
-		0.0, //D angle
+		&turn_kp, //P angle
+		&turn_ki, //I angle 
+		&turn_kp, //D angle
 
 		8.24, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
-		0.1524, //whel diameter in meters 
-		1, // max speed of the robot 
-		1 //max speed of the robot when turning 
+		0.1524, //wheel diameter in meters 
+		0.5, // max speed of the robot 
+		0.5 //max speed of the robot when turning 
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
@@ -76,17 +101,19 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-	// currentTimeStamp = Timer::GetFPGATimestamp();
-	// dt = currentTimeStamp - lastTimeStamp;
+	currentTimeStamp = Timer::GetFPGATimestamp();
+	dt = currentTimeStamp - lastTimeStamp;
 
-	std::cout << "Current Location: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
-	// std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	// std::cout << "Current Location: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
+	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
+	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	// std::cout << "Current Location M: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
-	// StrategyController::Update(dt);
-	// NTProvider::Update();
+	// std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl;
+	StrategyController::Update(dt);
+	NTProvider::Update();
 
-	// lastTimeStamp = currentTimeStamp;
+	lastTimeStamp = currentTimeStamp;
 }
 
 // Dissabled Robot Logic
@@ -98,20 +125,14 @@ void Robot::AutonomousInit() {
 
 
 	robotMap.driveSystem.gyro.Reset();
-	// Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp));
-	drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
+	// drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
 
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
 
+	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp), true);
 }
 void Robot::AutonomousPeriodic() {
-	currentTimeStamp = Timer::GetFPGATimestamp();
-	dt = currentTimeStamp - lastTimeStamp;
-	// wayFinder->drive(wfdConfig);
-
-	wayFinder->setBarStop(0.2);
-	wayFinder->setStepSize(0.005);
 
 	// if (wayFinder->followPath(wp.path, dt, false)) {
 	// 	std::cout << "Path Complete" << std::endl;
@@ -133,9 +154,10 @@ void Robot::AutonomousPeriodic() {
 
 	std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
 
-	wayFinder->testTurnPID(dt, wfdConfig);
 
-	lastTimeStamp = currentTimeStamp;
+	// wayFinder->testDrivePID(dt, wfdConfig);
+
+	// lastTimeStamp = currentTimeStamp;
 }
 
 
