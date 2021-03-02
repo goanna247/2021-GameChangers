@@ -22,5 +22,5 @@ class Intake : public wml::StrategySystem {
 
 	IntakeStates _intakeState{ IntakeStates::STOWED};
 
-	double _power;
+	double _power = 0;
 };
