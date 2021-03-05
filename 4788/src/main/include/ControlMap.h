@@ -40,6 +40,7 @@ struct ControlMap {
 	static const int IntakePort;
 	static const int IntakeSolenoidPort1, IntakeSolenoidPort2;
 	static bool IntakeToggle;
+	static const double OutakeSpeed;
 
 	//Mag
 	static const int MagMotorPort;
@@ -48,7 +49,7 @@ struct ControlMap {
 
 	//shooter 
 	static const int FWPort, TPort, FPort, HPort;
-	static const double TurretMaxSpeed, HoodMaxSpeed, FlyWheelMaxSpeed, FireSpeed;
+	static const double TurretMaxSpeed, HoodMaxSpeed, FlyWheelMaxSpeed, FireSpeed, ReverseFireSpeed;
 
 	// ------------------ Controls ------------------
 	
@@ -67,5 +68,6 @@ struct ControlMap {
 	//shooter
 	static const wml::controllers::tButton FireButton;
 	static const wml::controllers::tAxis HoodLM, TurretTurn, SpinUp;
+	static const wml::controllers::tPOV ReverseFireButton;
 
 };
