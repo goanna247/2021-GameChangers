@@ -27,7 +27,7 @@ const int ControlMap::FLport = 1;
 const int ControlMap::BLport = 99;
 
 // Right Drive
-const int ControlMap::FRport = 5;
+const int ControlMap::FRport = 2;
 const int ControlMap::BRport = 99;
 
 // Drivetrain speed

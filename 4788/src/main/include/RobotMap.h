@@ -75,7 +75,7 @@ struct RobotMap {
 	struct DriveSystem {
 
 		// Drive motors {port, encoderTicks}
-		wml::TalonFX FL{ControlMap::FLport, 80}, FR{ControlMap::FRport, 80};
+		wml::TalonFX FL{ControlMap::FLport, 2048}, FR{ControlMap::FRport, 2048};
 
 		// Motor Grouping
 		wml::actuators::MotorVoltageController leftMotors = wml::actuators::MotorVoltageController::Group(FL);
@@ -91,7 +91,5 @@ struct RobotMap {
 		wml::DrivetrainConfig drivetrainConfig{LGearbox, RGearbox, &gyro, ControlMap::TrackWidth, ControlMap::TrackDepth, ControlMap::WheelRadius, ControlMap::Mass};
 		wml::control::PIDGains gainsVelocity{"Drivetrain Velocity", 1};
 		wml::Drivetrain drivetrain{drivetrainConfig, gainsVelocity};
-
-
 	}; DriveSystem driveSystem;
 };

@@ -12,32 +12,15 @@ double dt;
 // wayfinder::Path::sPath path1;
 
 wayfinder::RobotControl::Config wfdConfig;
+double drive_kp = 0.3,
+			drive_ki = 0.0000001,
+			drive_kd = 0.0000001,
 
-// double drive_kp = 0.3,
-// 				drive_ki = 0,
-// 				drive_kd = 0,
+			turn_kp = 0.0001,
+			turn_ki = 0,
+			turn_kd = 10;
 
-// 				turn_kp = 0.000002,
-// 				turn_ki = 0,
-// 				turn_kd = 0;
-
-
-
-				// double drive_kp = 0.2,
-				// drive_ki = 0.0000001,
-				// drive_kd = -0.0006,
-
-				// turn_kp = 0.00002,
-				// turn_ki = 0.0000001,
-				// turn_kd = -0.00009;
-
-				double drive_kp = 0.2,
-				drive_ki = 0.001,
-				drive_kd = -0.0005,
-
-				turn_kp = 0.0005,
-				turn_ki = 0.00025,
-				turn_kd = -0.0005;
+wayfinder::PIDTuner *tuner;
 
 // Robot Logic
 void Robot::RobotInit() {
@@ -69,12 +52,14 @@ void Robot::RobotInit() {
 		&turn_ki, //I angle 
 		&turn_kp, //D angle
 
-		8.24, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
-		0.1524, //wheel diameter in meters 
-		0.5, // max speed of the robot 
-		0.5 //max speed of the robot when turning 
+		6.86, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
+		0.102, //wheel diameter in meters 
+		1, // max speed of the robot 
+		1 //max speed of the robot when turning 
 	};
 	wayFinder = new WayFinder(wfdConfig);
+
+	tuner = new PIDTuner(wfdConfig);
 
 	// Init paths
 	wayFinder->setStepSize(0.005f);
@@ -93,7 +78,8 @@ void Robot::RobotInit() {
 
 	// Inverts one side of our drivetrain
 	drivetrain->GetConfig().leftDrive.transmission->SetInverted(false);
-	drivetrain->GetConfig().rightDrive.transmission->SetInverted(false);
+	drivetrain->GetConfig().rightDrive.transmission->SetInverted(true);
+
 
 	// Register our systems to be called via strategy
 	StrategyController::Register(drivetrain);
@@ -109,7 +95,7 @@ void Robot::RobotPeriodic() {
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	// std::cout << "Current Location M: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
-	// std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl;
+	std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl;
 	StrategyController::Update(dt);
 	NTProvider::Update();
 
@@ -123,31 +109,17 @@ void Robot::DisabledPeriodic() {}
 // Auto Robot Logic
 void Robot::AutonomousInit() {
 
-
 	robotMap.driveSystem.gyro.Reset();
-	// drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
 
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
 
 	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp), true);
 }
+
 void Robot::AutonomousPeriodic() {
 
-	// if (wayFinder->followPath(wp.path, dt, false)) {
-	// 	std::cout << "Path Complete" << std::endl;
-	// } else {
-	// 	std::cout << "Following Path" << std::endl;
-
-	// 	// std::cout << "Rotations to target: " << wayFinder->getRotationsToTarget_STATIC(wp.path, wfdConfig) << std::endl;
-	// 	std::cout << "Path length: " << wp.path.pathLength << std::endl;
-	// 	std::cout << "Current Location M: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
-
-	// 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
-	// 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
-
-	// 	std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
-	// }
+	tuner->update();
 
 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
@@ -155,15 +127,12 @@ void Robot::AutonomousPeriodic() {
 	std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
 
 
-	// wayFinder->testDrivePID(dt, wfdConfig);
 
-	// lastTimeStamp = currentTimeStamp;
 }
-
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
-	// Schedule(drivetrain->GetDefaultStrategy(), true); // Use manual strategy
+	Schedule(drivetrain->GetDefaultStrategy(), true);
 }
 void Robot::TeleopPeriodic() {}
 
