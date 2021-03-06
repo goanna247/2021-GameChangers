@@ -9,21 +9,14 @@ IntakeManualStrategy::IntakeManualStrategy(std::string name, Intake &intake, Con
 void IntakeManualStrategy::OnUpdate(double dt) {
 	double IntakePower = fabs(_contGroup.Get(ControlMap::Intake)) > ControlMap::TriggerDeadzone ? _contGroup.Get(ControlMap::Intake) : 0;
 
-	if (_contGroup.Get(ControlMap::Outake)) { //check if the reverse button is being pushed 
-		IntakePower = ControlMap::OutakeSpeed;
-	} 
-	//i dont think i need an else because if the button isnt pressed itll just be set to the trigger input 
+	// _intake.setIntake(IntakeStates::DEPLOYED, -IntakePower);
 
-	if (_contGroup.Get(ControlMap::IntakeActuation, wml::controllers::Controller::ButtonMode::ONRISE)) {
-		if (!(ControlMap::IntakeToggle)) {
-			ControlMap::IntakeToggle = true;
+	if (_contGroup.Get(ControlMap::IntakeActuation, wml::controllers::Controller::ONFALL)) {
+		if (_contGroup.Get(ControlMap::Outake)) {
+			IntakePower = -0.5;
 		} else {
-			ControlMap::IntakeToggle = false;
+			_intake.setIntake(IntakeStates::DEPLOYED, -IntakePower);
 		}
-	}
-
-	if (!(ControlMap::IntakeToggle)) {
-		_intake.setIntake(IntakeStates::DEPLOYED, IntakePower);
 	} else {
 		_intake.setIntake(IntakeStates::STOWED, 0);
 	}

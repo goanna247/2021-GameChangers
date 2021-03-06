@@ -12,16 +12,14 @@ void Intake::updateIntake(double dt) {
 
 	switch (_intakeState) {
 		case IntakeStates::STOWED:
-			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kForward);
-			std::cout << "stowed" << std::endl;
+			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kReverse);
 			break;
 		case IntakeStates::DEPLOYED:
-			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kReverse);
+			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kForward);
 			setPower = _power;
-			std::cout << "deployed" << std::endl;
 			break;
 	}
-
+	
 	_intakeMotor.Set(setPower);
 	_intakeSolenoid.Update(dt);
 }

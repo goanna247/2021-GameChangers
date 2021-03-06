@@ -20,9 +20,9 @@ const double ControlMap::XboxDeadzone = 0.1;
 const double ControlMap::TriggerDeadzone = 0.15;
 
 // PCMs
-const int ControlMap::PCModule = 9;
-const int ControlMap::PressureSensorPort = 0;
-const int ControlMap::CompressorPort = 0;
+const int ControlMap::PCModule = 1;
+const int ControlMap::PressureSensorPort = 99;
+const int ControlMap::CompressorPort = 99;
 
 // Left Drive
 const int ControlMap::Lport = 1;
@@ -46,7 +46,7 @@ const double ControlMap::OutakeSpeed = -0.8;
 
 //mag
 const int ControlMap::MagMotorPort = 4;
-bool ControlMap::MagToggle = true;
+bool ControlMap::MagToggle = false;
 
 const double ControlMap::MagSpeed = 0.2;
 const double ControlMap::ReverseMagSpeed = -0.5;
