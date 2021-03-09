@@ -16,13 +16,8 @@ void DrivetrainAuto::OnUpdate(double dt) {
   // } else { 
   //   std::cout << "Following path" << std::endl; 
   // }
-  // _wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180);
+  _wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180);
+  // _drivetrain.Set(0.1, 0.1);
   // _drivetrain.Set(0.15, 0.15);
   // _wayFinder.testDrivePID(dt, *_wayFinder.getConfig(), 2);}
-  if (Timer::GetFPGATimestamp < 1.5) {
-		_drivetrain.Set(0.25, 0.25);
-	} else {
-		_drivetrain.Set(0, 0);
-	}
-
 }

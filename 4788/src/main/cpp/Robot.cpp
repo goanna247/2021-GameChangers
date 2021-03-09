@@ -16,9 +16,9 @@ double drive_kp = 0.3,
 			drive_ki = 0.0000001,
 			drive_kd = 0.0000001,
 
-			turn_kp = 0.0001,
+			turn_kp = 0.00011,
 			turn_ki = 0,
-			turn_kd = 10;
+			turn_kd = -0.06; // -0.000015;
 
 wayfinder::PIDTuner *tuner;
 
@@ -80,7 +80,6 @@ void Robot::RobotInit() {
 	drivetrain->GetConfig().leftDrive.transmission->SetInverted(false);
 	drivetrain->GetConfig().rightDrive.transmission->SetInverted(true);
 
-
 	// Register our systems to be called via strategy
 	StrategyController::Register(drivetrain);
 	NTProvider::Register(drivetrain);
@@ -119,7 +118,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
 
-	tuner->update();
+	// tuner->update();
 
 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
@@ -132,9 +131,13 @@ void Robot::AutonomousPeriodic() {
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
-	Schedule(drivetrain->GetDefaultStrategy(), true);
+	// Schedule(drivetrain->GetDefaultStrategy(), true);
 }
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+	// drivetrain->Set(0.2, 0.2);
+	// robotMap.driveSystem.drivetrain.Set(0.1, 0.1);
+	// drivetrain->Set(0.1, 0.1);
+}
 
 // Test Logic
 void Robot::TestInit() {}
