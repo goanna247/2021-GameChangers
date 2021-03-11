@@ -37,4 +37,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	wml::Drivetrain *drivetrain; // WML drivetrain (Not local)
 	wayfinder::WayFinder *wayFinder;
 	wfd_paths wp;
+	frc::Timer timer;
 };
