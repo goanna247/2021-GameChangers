@@ -1,14 +1,9 @@
 #pragma once 
 
 #include "RobotMap.h"
-// #include "Robot.h"
 #include "strategy/Strategy.h"
-// #include "controllers/Controllers.h"
 #include "strategies/DriveSystem.h"
-// #include "Drivetrain.h"
 #include "wfd_paths.h"
-
-// using namespace wayfinder;
 
 class DrivetrainAuto : public wml::Strategy {
  public:

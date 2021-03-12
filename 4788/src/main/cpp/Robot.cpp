@@ -16,10 +16,12 @@ double drive_kp = 0.3,
 			drive_ki = 0.0000001,
 			drive_kd = 0.0000001,
 
-			turn_kp = 0.000000001,
+			turn_kp = 0.000000001, //values being set by shuffleboard 
  			turn_ki = 0.000000001,
 			turn_kd = 0.000000001;
-			// turn_kd = -0.00001; // -0.000015;  -0.6
+//past values: 
+//-0.00001; // -0.000015;  -0.6
+
 wayfinder::PIDTuner *tuner;
 
 // Robot Logic
@@ -61,12 +63,9 @@ void Robot::RobotInit() {
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
-	// tuner = new PIDTuner(wfdConfig);
-
 	// Init paths
 	wayFinder->setStepSize(0.005f);
 	wp.path = wayFinder->buildPath(wp.spline1);
-
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -93,24 +92,21 @@ void Robot::RobotPeriodic() {
 	currentTimeStamp = Timer::GetFPGATimestamp();
 	dt = currentTimeStamp - lastTimeStamp;
 
-	// std::cout << "Current Location: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
-	// std::cout << "Current Location M: " << wayFinder->getCurrentLocation(wfdConfig, true) << std::endl;
-
+	//pid values controlled by shuffleboard
 	turn_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_P").GetDouble(0);
-	turn_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_I").GetDouble(0);
-	turn_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_D").GetDouble(0);
-
-	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Current angle").SetDouble(robotMap.driveSystem.gyro.GetAngle());
-
-	std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001
 	std::cout << "P value: " << turn_kp << std::endl;
+	turn_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_I").GetDouble(0);
 	std::cout << "I value: " << turn_ki << std::endl;
+	turn_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_D").GetDouble(0);
 	std::cout << "D value: " << turn_kd << std::endl;
 
-	
+	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Current angle").SetDouble(robotMap.driveSystem.gyro.GetAngle());
+	std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001    0.000075
+
+	//reset the navX
 	if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {
 		robotMap.driveSystem.gyro.Reset();
 		std::cout << "Reseting" << std::endl;
@@ -135,35 +131,20 @@ void Robot::AutonomousInit() {
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
 
 	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp), true);
-
-	timer.Start();
 }
 
 void Robot::AutonomousPeriodic() {
-
-	// tuner->update();
-
 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
-	// std::cout << "gyroscope" << robotMap.driveSystem
-
-
-// 	if (timer.Get() > 7) {
-// 		robotMap.driveSystem.gyro.Reset();
-// 		timer.Reset();
 }
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
 	// Schedule(drivetrain->GetDefaultStrategy(), true);
 }
-void Robot::TeleopPeriodic() {
-	// drivetrain->Set(0.2, 0.2);
-	// robotMap.driveSystem.drivetrain.Set(0.1, 0.1);
-	// drivetrain->Set(0.1, 0.1);
-}
+void Robot::TeleopPeriodic() {}
 
 // Test Logic
 void Robot::TestInit() {}
