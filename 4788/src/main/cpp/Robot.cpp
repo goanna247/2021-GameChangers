@@ -12,9 +12,9 @@ double dt;
 // wayfinder::Path::sPath path1;
 
 wayfinder::RobotControl::Config wfdConfig;
-double drive_kp = 0.3,
-			drive_ki = 0.0000001,
-			drive_kd = 0.0000001,   //values being set by shuffleboard
+double drive_kp = 0.135,
+			drive_ki = 0.00457,
+			drive_kd = -0.0005,   //values being set by shuffleboard
 
 			turn_kp = 0.000075,
  			turn_ki = 0.0002545,
@@ -31,6 +31,7 @@ void Robot::RobotInit() {
 	ControlMap::InitsmartControllerGroup(robotMap.contGroup);
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").SetDouble(0);
+	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("turnAround").SetDouble(0);
 
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
 	camera.SetFPS(30);
@@ -96,15 +97,17 @@ void Robot::RobotPeriodic() {
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	//pid values controlled by shuffleboard
-	turn_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);
+	drive_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);
 	std::cout << "P value: " << drive_kp << std::endl;
-	turn_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_I").GetDouble(0);
+	drive_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_I").GetDouble(0);
 	std::cout << "I value: " << drive_ki << std::endl;
-	turn_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_D").GetDouble(0);
+	drive_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_D").GetDouble(0);
 	std::cout << "D value: " << drive_kd << std::endl;
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Current angle").SetDouble(robotMap.driveSystem.gyro.GetAngle());
 	std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001    0.000075
+
+	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Distance to target").SetDouble(wayFinder->getCurrentLocation(wfdConfig, true));
 
 	//reset the navX
 	if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {

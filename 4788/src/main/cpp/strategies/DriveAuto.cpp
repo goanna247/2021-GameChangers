@@ -18,5 +18,12 @@ void DrivetrainAuto::OnUpdate(double dt) {
 
 
 	// _wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180); //turn 180 degrees using the PID config in robot.cpp
-	_wayFinder.testDrivePID(dt, *_wayFinder.getConfig(), 2); //drive 2 meters forwards
+ //drive 2 meters forwards
+
+	if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("turnAround").GetDouble(0) > 0) {
+		_wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180); //turn 180 degrees using the PID config in robot.cpp
+	} else {
+		_wayFinder.testDrivePID(dt, *_wayFinder.getConfig(), 2);
+	}
+
 }
