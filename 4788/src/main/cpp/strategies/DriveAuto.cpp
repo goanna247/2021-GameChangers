@@ -17,6 +17,6 @@ void DrivetrainAuto::OnUpdate(double dt) {
 	// }
 
 
-	_wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180); //turn 180 degrees using the PID config in robot.cpp
-	// _wayFinder.testDrivePID(dt, *_wayFinder.getConfig(), 2); //drive 2 meters forwards
+	// _wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180); //turn 180 degrees using the PID config in robot.cpp
+	_wayFinder.testDrivePID(dt, *_wayFinder.getConfig(), 2); //drive 2 meters forwards
 }
