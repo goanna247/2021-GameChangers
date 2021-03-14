@@ -9,7 +9,7 @@ double lastTimeStamp;
 double dt;
 
 // wayfinder::Path::sSpline spline1;
-// wayfinder::Path::sPath path1;
+// wayfinder::Path::sPath path;
 
 wayfinder::RobotControl::Config wfdConfig;
 double drive_kp = 0.135,
@@ -22,7 +22,7 @@ double drive_kp = 0.135,
 //past values: 
 //-0.00001; // -0.000015;  -0.6
 
-wayfinder::PIDTuner *tuner;
+// wayfinder::PIDTuner *tuner;
 
 // Robot Logic
 void Robot::RobotInit() {
@@ -33,13 +33,13 @@ void Robot::RobotInit() {
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").SetDouble(0);
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("turnAround").SetDouble(0);
 
-	auto camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
-	camera.SetFPS(30);
-	camera.SetResolution(160, 120);
+	// auto camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+	// camera.SetFPS(30);
+	// camera.SetResolution(160, 120);
 
-	auto camera2 = CameraServer::GetInstance()->StartAutomaticCapture(1);
-	camera2.SetFPS(30);
-	camera2.SetResolution(160, 120);
+	// auto camera2 = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	// camera2.SetFPS(30);
+	// camera2.SetResolution(160, 120);
 
 	// Create wml drivetrain
 	drivetrain = new Drivetrain(robotMap.driveSystem.drivetrainConfig, robotMap.driveSystem.gainsVelocity);
@@ -59,14 +59,17 @@ void Robot::RobotInit() {
 
 		6.86, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
 		0.102, //wheel diameter in meters 
-		1, // max speed of the robot 
-		1 //max speed of the robot when turning 
+		0.3, // max speed of the robot 
+		0.3, //max speed of the robot when turning 
+		false
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
 	// Init paths
 	wayFinder->setStepSize(0.005f);
-	wp.path = wayFinder->buildPath(wp.spline1);
+	// wayFinder->setBarStop(wfdConfig, 0.5, false);
+	wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
+	wayFinder->setAanglePrc(10);
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -93,27 +96,34 @@ void Robot::RobotPeriodic() {
 	currentTimeStamp = Timer::GetFPGATimestamp();
 	dt = currentTimeStamp - lastTimeStamp;
 
-	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
-	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
+	// std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	//pid values controlled by shuffleboard
 	drive_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);
-	std::cout << "P value: " << drive_kp << std::endl;
+	// std::cout << "P value: " << drive_kp << std::endl;
 	drive_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_I").GetDouble(0);
-	std::cout << "I value: " << drive_ki << std::endl;
+	// std::cout << "I value: " << drive_ki << std::endl;
 	drive_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_D").GetDouble(0);
-	std::cout << "D value: " << drive_kd << std::endl;
+	// std::cout << "D value: " << drive_kd << std::endl;
+
+	turn_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_P").GetDouble(0);
+	// std::cout << "P turn value: " << turn_kp << std::endl;
+	turn_ki = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_I").GetDouble(0);
+	// std::cout << "I turn value: " << turn_ki << std::endl;
+	turn_kd = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Turn_D").GetDouble(0);
+	// std::cout << "D turn value: " << turn_kd << std::endl;
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Current angle").SetDouble(robotMap.driveSystem.gyro.GetAngle());
-	std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001    0.000075
+	// std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001    0.000075
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Distance to target").SetDouble(wayFinder->getCurrentLocation(wfdConfig, true));
 
 	//reset the navX
-	if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {
-		robotMap.driveSystem.gyro.Reset();
-		std::cout << "Reseting" << std::endl;
-	}
+	// if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {
+	// 	robotMap.driveSystem.gyro.Reset();
+	// 	std::cout << "Reseting" << std::endl;
+	// }
 
 	StrategyController::Update(dt);
 	NTProvider::Update();
@@ -129,7 +139,7 @@ void Robot::DisabledPeriodic() {}
 void Robot::AutonomousInit() {
 
 	robotMap.driveSystem.gyro.Reset();
-	wayFinder->resetLoop();
+	// wayFinder->resetLoop();
 
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
@@ -138,15 +148,17 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
-	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
+	// std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
-	std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
+	// std::cout << "Gyroscope yaw: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; 
+
+	// wayFinder->followPath(wp.path, dt, false);
 }
 
 // Manual Robot Logic
 void Robot::TeleopInit() {
-	// Schedule(drivetrain->GetDefaultStrategy(), true);
+	Schedule(drivetrain->GetDefaultStrategy(), true);
 }
 void Robot::TeleopPeriodic() {}
 

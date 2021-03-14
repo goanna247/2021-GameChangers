@@ -16,5 +16,5 @@ void DrivetrainManual::OnUpdate(double dt) {
 	_leftPower *= ControlMap::MaxDrivetrainSpeed;
 	_rightPower *= ControlMap::MaxDrivetrainSpeed;
 
-	_drivetrain.Set(_leftPower, _rightPower);
+	_drivetrain.Set(-_leftPower, -_rightPower);
 }
