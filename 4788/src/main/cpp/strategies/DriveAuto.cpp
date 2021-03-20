@@ -9,19 +9,33 @@ DrivetrainAuto::DrivetrainAuto(std::string name, wml::Drivetrain &drivetrain, wa
 }
 
 void DrivetrainAuto::OnUpdate(double dt) {
+	// if (_wayFinder.followPath(_wp.path, dt, false)) {
+	//   std::cout << "Path complete" << std::endl;
+	// } else { 
+	//   // std::cout << "Following path" << std::endl; 
+	// 	if (_wayFinder.atWayPoint(1, _wp.path)) {
+	// 		std::cout << "At way point 1" << std::endl;
+	// 		nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Follower")->GetEntry("WayPoint1").SetBoolean(true);
+	// 	} else if (_wayFinder.atWayPoint(2, _wp.path)) {
+	// 		nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Follower")->GetEntry("WayPoint2").SetBoolean(true);
+	// 	} else if (_wayFinder.atWayPoint(3, _wp.path)) {
+	// 		nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Follower")->GetEntry("WayPoint3").SetBoolean(true);
+	// 	}
+	// }
 
-	if (_wayFinder.followPath(_wp.path, dt, false)) {
-	  std::cout << "Path complete" << std::endl;
-	} else { 
-	  // std::cout << "Following path" << std::endl; 
-		if (_wayFinder.atWayPoint(1, _wp.path)) {
-			std::cout << "At way point 1" << std::endl;
-		}
-	}
+	_wayFinder.followPath(_wp.path, dt, false);
+	// if (_drivetrain.GetConfig().leftDrive.encoder->GetEncoderTicks() < (2048 * 6.86)) {
+	// 	_drivetrain.Set(0.07, 0.07);
+	// } else {
+	// 	_drivetrain.Set(0, 0);
+	// }
+	
 
 	// _wayFinder.followPath(_wp.path, dt, false);
 
 	// _wayFinder.testTurnPID(dt, *_wayFinder.getConfig(), 180); //turn 180 degrees using the PID config in robot.cpp
+	// _wayFinder.testPID(dt, *_wayFinder.getConfig(), 2, 30); //turn 180 degrees using the PID config in robot.cpp
+
  //drive 2 meters forwards
 
 

@@ -12,13 +12,13 @@ double dt;
 // wayfinder::Path::sPath path;
 
 wayfinder::RobotControl::Config wfdConfig;
-double drive_kp = 0.135,
-			drive_ki = 0.00457,
-			drive_kd = -0.0005,   //values being set by shuffleboard
+double drive_kp = 0.135,  //0.135
+			drive_ki = 0.00457, //0.00457
+			drive_kd = -0.0005,   //values being set by shuffleboard, -0.0005
 
-			turn_kp = 0.000075,
- 			turn_ki = 0.0002545,
-			turn_kd = 0.00001;
+			turn_kp = 0.000075, //0.000075
+ 			turn_ki = 0.0002545, //0.0002545
+			turn_kd = 0.00001; //0.00001
 //past values: 
 //-0.00001; // -0.000015;  -0.6
 
@@ -59,8 +59,8 @@ void Robot::RobotInit() {
 
 		6.86, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
 		0.102, //wheel diameter in meters 
-		0.3, // max speed of the robot 
-		0.3, //max speed of the robot when turning 
+		0.4, // max speed of the robot 
+		0.4, //max speed of the robot when turning 
 		false
 	};
 	wayFinder = new WayFinder(wfdConfig);
@@ -69,7 +69,10 @@ void Robot::RobotInit() {
 	wayFinder->setStepSize(0.005f);
 	// wayFinder->setBarStop(wfdConfig, 0.5, false);
 	wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
-	wayFinder->setAanglePrc(10);
+	// wayFinder->setAanglePrc(10);
+	// wayFinder->setBarStop(wfdConfig, 0.1, true);
+
+	wayFinder->dissable(true);
 
 	std::cout << "Robot Init" << std::endl;
 
