@@ -23,7 +23,14 @@ void DrivetrainAuto::OnUpdate(double dt) {
 	// 	}
 	// }
 
-	_wayFinder.followPath(_wp.path, dt, false);
+	
+	if (_wayFinder.followPath(_wp.path, dt, false)) {
+		std::cout << "following path" << std::endl;
+	} else {
+		std::cout << "Finished path" << std::endl;
+	}
+
+
 	// if (_drivetrain.GetConfig().leftDrive.encoder->GetEncoderTicks() < (2048 * 6.86)) {
 	// 	_drivetrain.Set(0.07, 0.07);
 	// } else {

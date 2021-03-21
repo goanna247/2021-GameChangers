@@ -7,7 +7,7 @@ struct wfd_paths {
   wayfinder::Path::sSpline spline1{
     {
       {0,0},
-      {0,3}
+      {4,1}
                 // {0,0}, 
                 // {1,-1.5},
                 // {2, -2},
@@ -23,8 +23,8 @@ struct wfd_paths {
 
     }, // Waypoints
 
-    {0,-1}, // Start control point
-    {0,4}, // End Control point
+    {0,0}, // Start control point
+    {4,2}, // End Control point
     "poggers"
   };
 

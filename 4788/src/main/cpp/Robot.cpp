@@ -59,16 +59,25 @@ void Robot::RobotInit() {
 
 		6.86, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
 		0.102, //wheel diameter in meters 
-		0.4, // max speed of the robot 
-		0.4, //max speed of the robot when turning 
+		0.2, // max speed of the robot 
+		0.2, //max speed of the robot when turning 
 		false
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
 	// Init paths
-	wayFinder->setStepSize(0.005f);
+	wayFinder->setStepSize(0.05f);
 	// wayFinder->setBarStop(wfdConfig, 0.5, false);
 	wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
+	// wp.path.pathLength = 3.34;
+	// wp.path.spline = wp.spline1;
+	// wp.path.startAngle = 0;
+	// wp.path.endAngle = 0;
+	// wayfinder::Path::PathState pts;
+	// pts.state = Path::PathState::State::kSplineFollow;
+	// wp.path.pathState = pts;
+	// wp.path.name = "roggers";
+
 	// wayFinder->setAanglePrc(10);
 	// wayFinder->setBarStop(wfdConfig, 0.1, true);
 
