@@ -66,9 +66,12 @@ void Robot::RobotInit() {
 	wayFinder = new WayFinder(wfdConfig);
 
 	// Init paths
-	wayFinder->setStepSize(0.05f);
-	// wayFinder->setBarStop(wfdConfig, 0.5, false);
-	wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
+	wp.pathL.name = "Linear Path";
+	wp.pathL = wayFinder->buildPath(wp.pathL, 0, 90);
+	// wayFinder->setStepSize(0.05f);
+	// wayFinder->setBarStop(wfdConfig, 0.1, true);
+	// wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
+
 	// wp.path.pathLength = 3.34;
 	// wp.path.spline = wp.spline1;
 	// wp.path.startAngle = 0;
@@ -78,10 +81,10 @@ void Robot::RobotInit() {
 	// wp.path.pathState = pts;
 	// wp.path.name = "roggers";
 
-	// wayFinder->setAanglePrc(10);
+	wayFinder->setAanglePrc(5);
 	// wayFinder->setBarStop(wfdConfig, 0.1, true);
 
-	wayFinder->dissable(true);
+	// wayFinder->disableAngleSE();
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -151,7 +154,7 @@ void Robot::DisabledPeriodic() {}
 void Robot::AutonomousInit() {
 
 	robotMap.driveSystem.gyro.Reset();
-	// wayFinder->resetLoop();
+	wayFinder->resetLoop();
 
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();

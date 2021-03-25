@@ -32,4 +32,19 @@ struct wfd_paths {
   * Path to use with follower
   */
   wayfinder::Path::sPath path;
+
+  wayfinder::Path::lLine line1 {{{0,0}, {1,0}}};
+  wayfinder::Path::lLine line2 {{{1,0}, {2,1}}};
+  // wayfinder::Path::lLine line3 {{{2,0}, {3,0}}};
+  // wayfinder::Path::lLine line4 {{{3,0}, {4,0}}};
+
+
+  wayfinder::Path::lPath pathL {
+    {
+      line1,
+      line2
+      // line3,
+      // line4
+    }
+  };
 };
