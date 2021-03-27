@@ -59,32 +59,24 @@ void Robot::RobotInit() {
 
 		6.86, //gearbox reduction, eg. 8.24 rotations = 1 wheel rotation
 		0.102, //wheel diameter in meters 
-		0.2, // max speed of the robot 
-		0.2, //max speed of the robot when turning 
+		0.3, // max speed of the robot 
+		0.3, //max speed of the robot when turning 
 		false
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
 	// Init paths
 	wp.pathL.name = "Linear Path";
-	wp.pathL = wayFinder->buildPath(wp.pathL, 0, 90);
-	// wayFinder->setStepSize(0.05f);
-	// wayFinder->setBarStop(wfdConfig, 0.1, true);
-	// wp.path = wayFinder->buildPath(wp.spline1, 0, 0);
+	wp.pathL = wayFinder->buildPath(wp.pathL, 0, 0);
 
-	// wp.path.pathLength = 3.34;
-	// wp.path.spline = wp.spline1;
-	// wp.path.startAngle = 0;
-	// wp.path.endAngle = 0;
-	// wayfinder::Path::PathState pts;
-	// pts.state = Path::PathState::State::kSplineFollow;
-	// wp.path.pathState = pts;
-	// wp.path.name = "roggers";
+	// wp.pathL2.name = "Linear Path part 2 ";
+	// wp.pathL2 = wayFinder->buildPath(wp.pathL2, 90, 90);
 
+	wayFinder->setBarStop(wfdConfig, 0.1, true);
 	wayFinder->setAanglePrc(5);
-	// wayFinder->setBarStop(wfdConfig, 0.1, true);
-
-	// wayFinder->disableAngleSE();
+	wayFinder->disableAngleSE();
+	// wayFinder->setWrap(-180);
+	wayFinder->fix();
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -92,7 +84,7 @@ void Robot::RobotInit() {
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
 
-	robotMap.driveSystem.gyro.Reset();
+	// robotMap.driveSystem.gyro.Reset();
 
 	// Strategy controllers (Set default strategy for drivetrain to be Manual)
 	drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
@@ -101,6 +93,7 @@ void Robot::RobotInit() {
 	// Inverts one side of our drivetrain
 	drivetrain->GetConfig().leftDrive.transmission->SetInverted(false);
 	drivetrain->GetConfig().rightDrive.transmission->SetInverted(true);
+
 
 	// Register our systems to be called via strategy
 	StrategyController::Register(drivetrain);
@@ -111,8 +104,8 @@ void Robot::RobotPeriodic() {
 	currentTimeStamp = Timer::GetFPGATimestamp();
 	dt = currentTimeStamp - lastTimeStamp;
 
-	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
-	// std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
+	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
 
 	//pid values controlled by shuffleboard
 	drive_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);

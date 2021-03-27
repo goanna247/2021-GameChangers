@@ -16,4 +16,6 @@ class DrivetrainAuto : public wml::Strategy {
 	wayfinder::WayFinder &_wayFinder;
 	wfd_paths &_wp;
 	bool _path1Complete = false;
+	bool pathOneCompleted = false;
+	int pathIncrementer = 0;
 };
