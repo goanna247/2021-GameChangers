@@ -66,8 +66,13 @@ void Robot::RobotInit() {
 	wayFinder = new WayFinder(wfdConfig);
 
 	// Init paths
-	wp.pathL.name = "Linear Path";
-	wp.pathL = wayFinder->buildPath(wp.pathL, 0, 0);
+	wp.path1L.name = "Linear Path";
+	wp.path2L.name = "fuck";
+	wp.path3L.name = "ahhhh";
+	wp.path1L = wayFinder->buildPath(wp.path1L, 0, 0);
+	wp.path2L = wayFinder->buildPath(wp.path2L, 0, 0);
+	wp.path3L = wayFinder->buildPath(wp.path3L, 0, 0);
+
 
 	// wp.pathL2.name = "Linear Path part 2 ";
 	// wp.pathL2 = wayFinder->buildPath(wp.pathL2, 90, 90);
@@ -77,6 +82,7 @@ void Robot::RobotInit() {
 	wayFinder->disableAngleSE();
 	// wayFinder->setWrap(-180);
 	wayFinder->fix();
+	// wayFinder->disableAngleSE();
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -106,6 +112,7 @@ void Robot::RobotPeriodic() {
 
 	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
 	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	std::cout << "gyro value: " << 	robotMap.driveSystem.gyro.GetAngle() << std::endl;
 
 	//pid values controlled by shuffleboard
 	drive_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);
