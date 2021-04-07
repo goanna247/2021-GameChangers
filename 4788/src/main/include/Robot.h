@@ -8,11 +8,6 @@
  */
 #include "RobotMap.h"
 #include "strategies/DriveSystem.h"
-#include "strategies/DriveAuto.h"
-
-// Temp
-// #include "wfd_paths.h"
-
 
 class Robot : public frc::TimedRobot, protected wml::StrategyController, protected wml::NTProvider {
  public:
@@ -35,7 +30,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	// Istances
 	RobotMap robotMap;
 	wml::Drivetrain *drivetrain; // WML drivetrain (Not local)
-	wayfinder::WayFinder *wayFinder;
-	wfd_paths wp;
 	frc::Timer timer;
 };

@@ -17,4 +17,16 @@ void DrivetrainManual::OnUpdate(double dt) {
 	_rightPower *= ControlMap::MaxDrivetrainSpeed;
 
 	_drivetrain.Set(-_leftPower, -_rightPower);
+
+	if (_contGroup.Get(ControlMap::RightRound)) {
+		_drivetrain.Set(0.5, 0.1);
+	}
+
+	if(_contGroup.Get(ControlMap::LeftRound)) {
+		_drivetrain.Set(0.1, 0.5);
+	}
+
+	if (_contGroup.Get(ControlMap::Straight) > ControlMap::TriggerDeadzone) {
+		_drivetrain.Set((_contGroup.Get(ControlMap::Straight)) / 1.3, (_contGroup.Get(ControlMap::Straight)) / 1.3);
+	}
 }

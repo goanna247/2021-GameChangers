@@ -31,7 +31,7 @@ const int ControlMap::FRport = 2;
 const int ControlMap::BRport = 99;
 
 // Drivetrain speed
-const double ControlMap::MaxDrivetrainSpeed = 0.8;
+const double ControlMap::MaxDrivetrainSpeed = 1;
 
 // Robot Values
 const double ControlMap::TrackWidth = 0.56;
@@ -42,5 +42,11 @@ const double ControlMap::Mass = 50; // KG's
 // ------------------ Values ------------------
 const tAxis ControlMap::DrivetrainLeft{ Driver, XboxController::kLeftYAxis };
 const tAxis ControlMap::DrivetrainRight{ Driver, XboxController::kRightYAxis };
+
+const tButton ControlMap::LeftRound{ Driver, XboxController::kBumperLeft};
+const tButton ControlMap::RightRound{ Driver, XboxController::kBumperRight};
+
+const tAxis ControlMap::Straight{ Driver, XboxController::kRightThrottle};
+
 
 

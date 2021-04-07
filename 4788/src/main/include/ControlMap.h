@@ -39,4 +39,7 @@ struct ControlMap {
 	
 	// Drivetrain
 	static const wml::controllers::tAxis DrivetrainLeft, DrivetrainRight;
+	static const wml::controllers::tButton LeftRound, RightRound;
+
+	static const wml::controllers::tAxis Straight;
 };
