@@ -67,22 +67,18 @@ void Robot::RobotInit() {
 
 	// Init paths
 	wp.path1L.name = "Linear Path";
-	wp.path2L.name = "fuck";
-	wp.path3L.name = "ahhhh";
 	wp.path1L = wayFinder->buildPath(wp.path1L, 0, 0);
+
+	wp.path2L.name = "fuck";
 	wp.path2L = wayFinder->buildPath(wp.path2L, 0, 0);
+
+	wp.path3L.name = "helop";
 	wp.path3L = wayFinder->buildPath(wp.path3L, 0, 0);
-
-
-	// wp.pathL2.name = "Linear Path part 2 ";
-	// wp.pathL2 = wayFinder->buildPath(wp.pathL2, 90, 90);
 
 	wayFinder->setBarStop(wfdConfig, 0.1, true);
 	wayFinder->setAanglePrc(5);
 	wayFinder->disableAngleSE();
-	// wayFinder->setWrap(-180);
 	wayFinder->fix();
-	// wayFinder->disableAngleSE();
 
 	std::cout << "Robot Init" << std::endl;
 

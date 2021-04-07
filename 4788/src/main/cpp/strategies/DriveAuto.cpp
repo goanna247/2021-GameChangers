@@ -11,50 +11,6 @@ DrivetrainAuto::DrivetrainAuto(std::string name, wml::Drivetrain &drivetrain, wa
 
 void DrivetrainAuto::OnUpdate(double dt) {
 
-	// if (_path1Complete) {
-	// 	if (_wayFinder.followPath(&_wp.path2L, dt, false)) {
-	// 		std::cout << "Path 2 complete" << std::endl;
-	// 	} else {
-	// 		std::cout << "Following path 2" << std::endl;
-	// 	}
-	// }
-
-
-	// if (!_path1Complete) {
-	// 	if (_wayFinder.followPath(&_wp.path1L, dt, false)) {
-	// 		std::cout << "Path 1 complete" << std::endl;
-	// 		_drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
-	// 		_drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
-	// 		_path1Complete = true;
-
-
-	// 		// if (_wayFinder.followPath(&_wp.pathL2, dt, false)) {
-	// 		// 	std::cout << "Path 2 complete" << std::endl;
-	// 		// }
-	// 	} else {
-	// 		// std::cout << "ahhhhh" << st d::endl;
-	// 		std::cout << "Following path 1" << std::endl;
-	// 	}
-	// }
-
-	// if ( _wayFinder.followPath(&_wp.path1L, dt, false)) {
-	// 	// //reset gyro 
-	// 	// if (!gyroReset) {
-	// 	// 	// _drivetrain.gyro.Reset();
-	// 	// 	// RobotMap.driveSystem.gyro.Reset();
-	// 	// 	_wayFinder.resetGyro();
-	// 	// 	gyroReset = true;
-	// 	// } else {
-	// 	// 	std::cout << "finished first path" << std::endl;
-	// 	// 	if (_wayFinder.followPath(&_wp.path2L, dt, false)) {
-	// 	// 		std::cout << "finished second path" << std::endl;
-	// 	// 	}
-			
-	// 	// }
-	// 	_wayFinder.followPath(&_wp.path2L, dt, false);
-	// } else {
-	// 	// _wayFinder.followPath(&_wp.path2L, dt, false);
-	// }
 	std::cout << pathIncrementer << std::endl;
 	try {
 		switch (pathIncrementer) {
@@ -69,7 +25,15 @@ void DrivetrainAuto::OnUpdate(double dt) {
 				break;
 			case 2:
 				if (_wayFinder.followPath(&_wp.path2L, dt, false)) {
-					pathIncrementer = 2;
+					pathIncrementer = 3;
+				}
+			case 3:
+				_wayFinder.resetGyro();
+				pathIncrementer = 4;
+			break;
+			case 4:
+				if (_wayFinder.followPath(&_wp.path3L, dt, false)) {
+					pathIncrementer = 5;
 				}
 			break;
 			default:
@@ -79,6 +43,4 @@ void DrivetrainAuto::OnUpdate(double dt) {
 	} catch (...) {
 		std::cout << "error" << std::endl;
 	}
-
-	
 }
