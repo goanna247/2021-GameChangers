@@ -8,9 +8,6 @@ double currentTimeStamp;
 double lastTimeStamp;
 double dt;
 
-// wayfinder::Path::sSpline spline1;
-// wayfinder::Path::sPath path;
-
 wayfinder::RobotControl::Config wfdConfig;
 double drive_kp = 0.135,  //0.135
 			drive_ki = 0.00457, //0.00457
@@ -19,10 +16,6 @@ double drive_kp = 0.135,  //0.135
 			turn_kp = 0.000075, //0.000075
  			turn_ki = 0.0002545, //0.0002545
 			turn_kd = 0.00001; //0.00001
-//past values: 
-//-0.00001; // -0.000015;  -0.6
-
-// wayfinder::PIDTuner *tuner;
 
 // Robot Logic
 void Robot::RobotInit() {
@@ -32,14 +25,6 @@ void Robot::RobotInit() {
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").SetDouble(0);
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("turnAround").SetDouble(0);
-
-	// auto camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
-	// camera.SetFPS(30);
-	// camera.SetResolution(160, 120);
-
-	// auto camera2 = CameraServer::GetInstance()->StartAutomaticCapture(1);
-	// camera2.SetFPS(30);
-	// camera2.SetResolution(160, 120);
 
 	// Create wml drivetrain
 	drivetrain = new Drivetrain(robotMap.driveSystem.drivetrainConfig, robotMap.driveSystem.gainsVelocity);
@@ -65,24 +50,23 @@ void Robot::RobotInit() {
 	};
 	wayFinder = new WayFinder(wfdConfig);
 
-	// Init paths
-	wp.path1L.name = "Linear Path";
-	wp.path2L.name = "fuck";
-	wp.path3L.name = "ahhhh";
-	wp.path1L = wayFinder->buildPath(wp.path1L, 0, 0);
-	wp.path2L = wayFinder->buildPath(wp.path2L, 0, 0);
-	wp.path3L = wayFinder->buildPath(wp.path3L, 0, 0);
-
-
-	// wp.pathL2.name = "Linear Path part 2 ";
-	// wp.pathL2 = wayFinder->buildPath(wp.pathL2, 90, 90);
-
 	wayFinder->setBarStop(wfdConfig, 0.1, true);
 	wayFinder->setAanglePrc(5);
 	wayFinder->disableAngleSE();
-	// wayFinder->setWrap(-180);
 	wayFinder->fix();
-	// wayFinder->disableAngleSE();
+
+	// Init paths
+	wp.path1L.name = "startToFirstTarget";
+	wp.path1L = wayFinder->buildPath(wp.path1L, 0, 0);
+
+	wp.path2L.name = "FirstTargetToMid";
+	wp.path2L = wayFinder->buildPath(wp.path2L, 0, 0);
+
+	wp.path3L.name = "MidToSecondTarget";
+	wp.path3L = wayFinder->buildPath(wp.path3L, 0, 0);
+
+	wp.path4L.name = "SecondTargetToMid";
+	wp.path4L = wayFinder->buildPath(wp.path4L, 0, 0);
 
 	std::cout << "Robot Init" << std::endl;
 
@@ -110,9 +94,9 @@ void Robot::RobotPeriodic() {
 	currentTimeStamp = Timer::GetFPGATimestamp();
 	dt = currentTimeStamp - lastTimeStamp;
 
-	std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
-	std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
-	std::cout << "gyro value: " << 	robotMap.driveSystem.gyro.GetAngle() << std::endl;
+	// std::cout << "Encoder Left: " << robotMap.driveSystem.FL.GetEncoderRotations() << std::endl;
+	// std::cout << "Encoder Right: " << robotMap.driveSystem.FR.GetEncoderRotations() << std::endl;
+	// std::cout << "gyro value: " << 	robotMap.driveSystem.gyro.GetAngle() << std::endl;
 
 	//pid values controlled by shuffleboard
 	drive_kp = nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Drive_P").GetDouble(0);
@@ -130,15 +114,8 @@ void Robot::RobotPeriodic() {
 	// std::cout << "D turn value: " << turn_kd << std::endl;
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Current angle").SetDouble(robotMap.driveSystem.gyro.GetAngle());
-	// std::cout << "Current Angle: " << robotMap.driveSystem.gyro.GetAngle() << std::endl; //0.000185       0.000000001    0.000075
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Distance to target").SetDouble(wayFinder->getCurrentLocation(wfdConfig, true));
-
-	//reset the navX
-	// if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {
-	// 	robotMap.driveSystem.gyro.Reset();
-	// 	std::cout << "Reseting" << std::endl;
-	// }
 
 	StrategyController::Update(dt);
 	NTProvider::Update();

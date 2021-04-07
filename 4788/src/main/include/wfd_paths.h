@@ -8,19 +8,6 @@ struct wfd_paths {
     {
       {0,0},
       {1,0}
-                // {0,0}, 
-                // {1,-1.5},
-                // {2, -2},
-                // {3, -2.5},
-                // {4, -3},
-                // {5, -3.5},
-                // {6, -4},
-                // {7, -4.5}
-      // {0.8, 3},
-      // {1.5, 2},
-      // {0.8, 1},
-      // {0.8, 0}
-
     }, // Waypoints
 
     {0,0}, // Start control point
@@ -33,76 +20,75 @@ struct wfd_paths {
   */
   wayfinder::Path::sPath path;
 
-  // wayfinder::Path::lLine line1 {{{5, -0.2}, {2, -0.2}}};
   wayfinder::Path::lLine line1 {{{0,0}, {0.4,0}}};
-  wayfinder::Path::lLine line2 {{{0.4,0}, {1.4,1.7}}};
-  wayfinder::Path::lLine line3 {{{1.4, 1.7}, {4.6,1.7}}};
-  wayfinder::Path::lLine line4 {{{4.6,1.7}, {5,-0.2}}};
-  wayfinder::Path::lLine line5 {{{5,-0.2}, {6, -0.3}}};
-  wayfinder::Path::lLine line6 {{{6,-0.3}, {6.3, 1.4}}};
-  wayfinder::Path::lLine line7 {{{6.3,1.4}, {5.5,1.4}}};
-  // wayfinder::Path::lLine line8 {{{5.6,1.4}, {5.6, 0.5}}};
-  // wayfinder::Path::lLine line8 {{{6,1.8}, {5.5,1.6}}};
-  // wayfinder::Path::lLine line8 {{{5,1.6}, {5,0}}};
-  // wayfinder::Path::lLine line9 {{{5,0}, {3,0}}};
+  wayfinder::Path::lLine line2 {{{0.4,0}, {0.4,1.8}}};
 
-  wayfinder::Path::lLine l1 {{{0,0}, {0,0}}}; //0.0, 0.4, 0.8
+  wayfinder::Path::lLine l1 {{{0,0}, {0,0}}};
   wayfinder::Path::lLine l2 {{{0,0}, {0,0}}};
   wayfinder::Path::lLine l3 {{{0,0}, {0,0}}};
   wayfinder::Path::lLine l4 {{{0,0}, {0,0}}};
   wayfinder::Path::lLine l5 {{{0,0}, {0,0}}};
   wayfinder::Path::lLine l6 {{{0,0}, {0,0}}};
-  wayfinder::Path::lLine l7 {{{0,0}, {0,0}}};
-  wayfinder::Path::lLine l8 {{{0,0}, {0,0}}}; 
-  wayfinder::Path::lLine l9 {{{0,0}, {-0.4,2}}}; 
-  wayfinder::Path::lLine l10 {{{-0.4,2}, {0.5,2}}}; 
-  wayfinder::Path::lLine l11 {{{0.5,2}, {1,2.5}}}; 
-  wayfinder::Path::lLine l12 {{{1,2.5}, {2,3.5}}}; 
-  wayfinder::Path::lLine l13 {{{2.4,3.5}, {4.4,2}}}; 
-  // wayfinder::Path::lLine l15 {{{3,2}, {4,2}}}; 
+  wayfinder::Path::lLine l7 {{{0,0}, {0.5,0.5}}};
+  wayfinder::Path::lLine l8 {{{0.5,0.5}, {1.6,1.6}}};
+  wayfinder::Path::lLine l9 {{{1.6,1.6}, {1.5,2.2}}};
+  // wayfinder::Path::lLine l10 {{{1.5,2.5}, {-2,2}}};
 
-  
-
-
-
-
-  // wayfinder::Path::lLine l11 {{{0.2,2}, {4,2}}}; 
-  // wayfinder::Path::lLine l12 {{{4,2}, {4.5,0}}}; 
-
-
-
-
-
-  // wayfinder::Path::lLine l2 {{{8,4}, {10, 2}}};
-  // wayfinder::Path::lLine l3 {{{10, 2}, {4, 0.8}}};
-  // wayfinder::Path::lLine line3 {{{1.4, 1.7}, {4.5,1.7}}};
-  // wayfinder::Path::lLine line4 {{{4.5,1.7}, {5.5,-0.1}}};
-  // wayfinder::Path::lLine line5 {{{5.5,-0.1}, {6.2,1.4}}};
-  // wayfinder::Path::lLine line6 {{{6.2,1.4}, {6,1.6}}};
-  // wayfinder::Path::lLine line7 {{{6,1.6}, {5.5,1.6}}};
-  // wayfinder::Path::lLine line8 {{{5.5,1.6}, {5,1.6}}};  
-  
-
-  // wayfinder::Path::lLine line9 {{{5, 1.6}, {5, 0.5}}};
-
-  // wayfinder::Path::lLine line10 {{{5,0.5}, {2,0.5}}}; // Section 2, robot reverse
-  // wayfinder::Path::lLine line10 {{{4,2}, {6,2}}};
+  wayfinder::Path::lLine m1 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m2 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m3 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m4 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m5 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m6 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m7 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m8 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m9 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m10 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m11 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m12 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m13 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine m14 {{{0,0}, {-3,-0.5}}}; //start
+  wayfinder::Path::lLine m15 {{{-3,-0.5}, {-6,-0.5}}};
 
 
-  wayfinder::Path::lLine a {{{0,0}, {1, 2.5}}};
-  wayfinder::Path::lLine b {{{1, 0}, {2, 1}}};
-  wayfinder::Path::lLine c {{{2, 1}, {3, 1}}};
+  wayfinder::Path::lLine n1 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n2 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n3 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n4 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n5 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n6 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n7 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n8 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n9 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n10 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n11 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n12 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n13 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n14 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n15 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n16 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n17 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n18 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n19 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n20 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n21 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n22 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n23 {{{0,0}, {0,0}}};
+  wayfinder::Path::lLine n24 {{{0,0}, {0,2}}};
+  wayfinder::Path::lLine n25 {{{0,2}, {0,3}}};
+
+  // wayfinder::Path::lLine n17 {{{0,-2.5}, {0,-3}}};
+
+
+
+
+
+
 
   wayfinder::Path::lPath path1L {
     {
       line1,
-      line2,
-      line3,
-      line4,
-      line5,
-      line6,
-      line7
-      // line8
+      line2
     }
   };
 
@@ -116,22 +102,60 @@ struct wfd_paths {
       l6,
       l7,
       l8,
-      l9,
-      l10,
-      l11,
-      l12,
-      l13
-      // l14
-      // l15
-      // l12
+      l9
     }
   };
 
   wayfinder::Path::lPath path3L {
     {
-      a,
-      b,
-      c
+      m1,
+      m2,
+      m3,
+      m4,
+      m5,
+      m6,
+      m7,
+      m8,
+      m9,
+      m10,
+      m11,
+      m12,
+      m13,
+      m14,
+      m15
     }
   };
+
+
+  wayfinder::Path::lPath path4L {
+    {
+      n1,
+      n2,
+      n3,
+      n4,
+      n5,
+      n6,
+      n7,
+      n8,
+      n9,
+      n10,
+      n11,
+      n12,
+      n13,
+      n14,
+      n15,
+      n16,
+      n17,
+      n18,
+      n19,
+      n20,
+      n21,
+      n22,
+      n23,
+      n24,
+      n25
+      // n17
+    }
+  };
+
 };
