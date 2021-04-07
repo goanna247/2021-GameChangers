@@ -58,7 +58,7 @@ struct wfd_paths {
   wayfinder::Path::lLine l10 {{{-0.4,2}, {0.5,2}}}; 
   wayfinder::Path::lLine l11 {{{0.5,2}, {1,2.5}}}; 
   wayfinder::Path::lLine l12 {{{1,2.5}, {2,3.5}}}; 
-  wayfinder::Path::lLine l14 {{{2.4,3.5}, {4.4,2}}}; 
+  wayfinder::Path::lLine l13 {{{2.4,3.5}, {4.4,2}}}; 
   // wayfinder::Path::lLine l15 {{{3,2}, {4,2}}}; 
 
   
@@ -120,8 +120,8 @@ struct wfd_paths {
       l10,
       l11,
       l12,
-      l13,
-      l14
+      l13
+      // l14
       // l15
       // l12
     }
