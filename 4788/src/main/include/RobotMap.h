@@ -92,4 +92,10 @@ struct RobotMap {
 		wml::control::PIDGains gainsVelocity{"Drivetrain Velocity", 1};
 		wml::Drivetrain drivetrain{drivetrainConfig, gainsVelocity};
 	}; DriveSystem driveSystem;
+
+	struct IntakeSystem {
+		wml::TalonSrx intakeMotor{5, 2048};
+		wml::TalonSrx magMotor{4, 2048};
+
+	}; IntakeSystem intakeSystem;
 };

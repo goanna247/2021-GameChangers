@@ -9,6 +9,7 @@
 #include "RobotMap.h"
 #include "strategies/DriveSystem.h"
 #include "strategies/DriveAuto.h"
+#include "strategies/IntakeStrategy.h"
 
 // Temp
 // #include "wfd_paths.h"
@@ -38,4 +39,5 @@ class Robot : public frc::TimedRobot, protected wml::StrategyController, protect
 	wayfinder::WayFinder *wayFinder;
 	wfd_paths wp;
 	frc::Timer timer;
+	Intake *intake;
 };

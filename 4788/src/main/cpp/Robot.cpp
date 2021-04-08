@@ -41,6 +41,10 @@ void Robot::RobotInit() {
 	// camera2.SetFPS(30);
 	// camera2.SetResolution(160, 120);
 
+	intake = new Intake(robotMap.intakeSystem.intakeMotor, robotMap.intakeSystem.magMotor);
+	intake->SetDefault(std::make_shared<IntakeAutoStrategy>("Ahhhh", *intake, robotMap.contGroup));
+	StrategyController::Register(intake);
+
 	// Create wml drivetrain
 	drivetrain = new Drivetrain(robotMap.driveSystem.drivetrainConfig, robotMap.driveSystem.gainsVelocity);
 	wfdConfig = {
@@ -67,30 +71,18 @@ void Robot::RobotInit() {
 
 	// Init paths
 	wp.path1L.name = "Linear Path";
-	wp.path2L.name = "fuck";
-	wp.path3L.name = "ahhhh";
 	wp.path1L = wayFinder->buildPath(wp.path1L, 0, 0);
-	wp.path2L = wayFinder->buildPath(wp.path2L, 0, 0);
-	wp.path3L = wayFinder->buildPath(wp.path3L, 0, 0);
-
-
-	// wp.pathL2.name = "Linear Path part 2 ";
-	// wp.pathL2 = wayFinder->buildPath(wp.pathL2, 90, 90);
 
 	wayFinder->setBarStop(wfdConfig, 0.1, true);
 	wayFinder->setAanglePrc(5);
 	wayFinder->disableAngleSE();
-	// wayFinder->setWrap(-180);
 	wayFinder->fix();
-	// wayFinder->disableAngleSE();
 
 	std::cout << "Robot Init" << std::endl;
 
 	// Zero Encoders
 	robotMap.driveSystem.drivetrain.GetConfig().leftDrive.encoder->ZeroEncoder();
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
-
-	// robotMap.driveSystem.gyro.Reset();
 
 	// Strategy controllers (Set default strategy for drivetrain to be Manual)
 	drivetrain->SetDefault(std::make_shared<DrivetrainManual>("Drivetrain Manual", *drivetrain, robotMap.contGroup));
@@ -134,11 +126,7 @@ void Robot::RobotPeriodic() {
 
 	nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("Distance to target").SetDouble(wayFinder->getCurrentLocation(wfdConfig, true));
 
-	//reset the navX
-	// if (nt::NetworkTableInstance::GetDefault().GetTable("WayFinder")->GetSubTable("Config")->GetEntry("navXReset").GetDouble(0) > 0) {
-	// 	robotMap.driveSystem.gyro.Reset();
-	// 	std::cout << "Reseting" << std::endl;
-	// }
+	intake->update(dt);
 
 	StrategyController::Update(dt);
 	NTProvider::Update();
@@ -160,6 +148,7 @@ void Robot::AutonomousInit() {
 	robotMap.driveSystem.drivetrain.GetConfig().rightDrive.encoder->ZeroEncoder();
 
 	Schedule(std::make_shared<DrivetrainAuto>("drive auto", *drivetrain, *wayFinder, wp), true);
+	Schedule(intake->GetDefaultStrategy(), true);
 }
 
 void Robot::AutonomousPeriodic() {
