@@ -20,10 +20,10 @@ struct wfd_paths {
   */
   wayfinder::Path::sPath path;
 
-  wayfinder::Path::lLine line1 {{{0,0}, {3,-2}}};
-  wayfinder::Path::lLine line2 {{{3,-2}, {4,1}}};
-  wayfinder::Path::lLine line3 {{{4, 1}, {5.2, -1.5}}};
-  wayfinder::Path::lLine line4 {{{5.2,-1.5}, {7,0}}};
+  wayfinder::Path::lLine line1 {{{0,0}, {1.5,0.5}}};
+  wayfinder::Path::lLine line2 {{{1.5,0.5}, {2,-1.2}}};
+  wayfinder::Path::lLine line3 {{{2, -2}, {4, 0.5}}};
+  wayfinder::Path::lLine line4 {{{4,0.5}, {7,0}}};
 
 
 
