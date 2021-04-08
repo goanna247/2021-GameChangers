@@ -7,7 +7,7 @@ IntakeAutoStrategy::IntakeAutoStrategy(std::string name, Intake &intake, Control
 }
 
 void IntakeAutoStrategy::OnUpdate(double dt) {
-	_intake.setIntake(0.8);
+	_intake.setIntake(1);
 	_intake.setMag(0.15);
 
 }

@@ -11,7 +11,7 @@ void Intake::setMag(double power) {
 }
 
 void Intake::updateIntake(double dt) {
-	_intakeMotor.Set(_IntakePower);
+	_intakeMotor.Set(-_IntakePower);
 	_magMotor.Set(_MagPower);
 	std::cout << "IntakePower: " << _IntakePower << std::endl;
 	std::cout << "Mag Power: " << _MagPower << std::endl;
