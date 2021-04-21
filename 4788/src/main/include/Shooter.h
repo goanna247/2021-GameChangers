@@ -10,10 +10,6 @@ enum class ShooterState {
 
 class Shooter : public wml::StrategySystem {
  public:
-	//flywheel - talon fx 
-	//hood - talon srx
-	//turret - talon srx 
-	//fire motor - talon srx
 	Shooter(wml::TalonFX &flyWheelMotor, wml::TalonSrx &hoodMotor, wml::TalonSrx &turretMotor, wml::TalonSrx &fireMotor);
 
 	void setFlywheel(double power);
@@ -30,10 +26,6 @@ class Shooter : public wml::StrategySystem {
 	wml::TalonSrx &_turretMotor;
 	wml::TalonSrx &_fireMotor;
 
-	// // FlyWheelState _flyWheelState{FlyWheelState::OFF};
-	// // TurretState _turretState{TurretState::OFF};
-	// // HoodState _hoodState{HoodState::OFF};
-	// // FireState _fireState{FireState::OFF};
 	ShooterState _shooterState{ShooterState::ON};
 
 	double _flywheelPower;

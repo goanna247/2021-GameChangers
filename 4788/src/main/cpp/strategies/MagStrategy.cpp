@@ -1,11 +1,20 @@
 #include "strategies/MagStrategy.h" 
 
+/**
+ * Mag manual strategy
+ */
 MagManualStrategy::MagManualStrategy(std::string name, Mag &mag, Controllers &contGroup) : Strategy(name), _mag(mag), _contGroup(contGroup) {
 	Requires(&mag);
 	SetCanBeInterrupted(true);
 	SetCanBeReused(true);
 }
 
+/**
+ * Mag manual strategy 
+ * Mag moving on a toggle both back and forwards 
+ * 
+ * toDo @anna fix the mag error, put backwards on a d-pad button
+ */
 void MagManualStrategy::OnUpdate(double dt) {
 	if (_contGroup.Get(ControlMap::MagToggleButton, wml::controllers::Controller::ButtonMode::ONRISE)) {
 		if (!(ControlMap::MagToggle)) {

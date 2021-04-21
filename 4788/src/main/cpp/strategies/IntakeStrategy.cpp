@@ -1,11 +1,22 @@
 #include "strategies/IntakeStrategy.h"
 
+/**
+ * Intake manual strategy 
+ * require the intake class
+ */
 IntakeManualStrategy::IntakeManualStrategy(std::string name, Intake &intake, Controllers &contGroup) : Strategy(name), _intake(intake), _contGroup(contGroup) {
 	Requires(&intake);
 	SetCanBeInterrupted(true);
 	SetCanBeReused(true);
 }
 
+/**
+ * Intake logic 
+ * Intake actuation is on a toggle
+ * Motor is on the trigger, cant intake both up and down 
+ * 
+ * toDo @anna make a reverse spin
+ */
 void IntakeManualStrategy::OnUpdate(double dt) {
 	double IntakePower = fabs(_contGroup.Get(ControlMap::Intake)) > ControlMap::TriggerDeadzone ? _contGroup.Get(ControlMap::Intake) : 0;
 
@@ -31,9 +42,3 @@ void IntakeManualStrategy::OnUpdate(double dt) {
 		}
 	}
 }
-		// if (_contGroup.Get(ControlMap::Outake)) {
-		// 	_intake.setIntake(IntakeStates::DEPLOYED, IntakePower);
-		// 	std::cout << "reverse intake" << std::endl;
-		// } else {
-		// 	_intake.setIntake(IntakeStates::DEPLOYED, 0);
-		// }

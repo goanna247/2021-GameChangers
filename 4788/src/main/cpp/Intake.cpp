@@ -2,6 +2,9 @@
 
 Intake::Intake(wml::TalonSrx &intakeMotor, wml::actuators::DoubleSolenoid &intakeSolenoid) : _intakeMotor(intakeMotor), _intakeSolenoid(intakeSolenoid) {}
 
+/**
+ * set state and power of the intake
+ */
 void Intake::setIntake(const IntakeStates st, double power) {
 	_intakeState = st;
 	_power = power;
@@ -14,11 +17,9 @@ void Intake::updateIntake(double dt) {
 		case IntakeStates::STOWED:
 			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kReverse);
 			setPower = _power;
-			// std::cout << "stowed" << std::endl;
 			break;
 		case IntakeStates::DEPLOYED:
 			_intakeSolenoid.SetTarget(wml::actuators::BinaryActuatorState::kForward);
-			// std::cout << "deployed" << std::endl;
 			setPower = _power;
 			break;
 	}

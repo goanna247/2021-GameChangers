@@ -2,21 +2,13 @@
 
 Shooter::Shooter(wml::TalonFX &flyWheelMotor, wml::TalonSrx &hoodMotor, wml::TalonSrx &turretMotor, wml::TalonSrx &fireMotor) : _flyWheelMotor(flyWheelMotor), _hoodMotor(hoodMotor), _turretMotor(turretMotor), _fireMotor(fireMotor) {}
 
-void Shooter::setFlywheel(double power) {
-	_flywheelPower = power;
-}
+void Shooter::setFlywheel(double power) { _flywheelPower = power; }
 
-void Shooter::setHood(double power) {
-	_hoodPower = power;
-}
+void Shooter::setHood(double power) { _hoodPower = power; }
 
-void Shooter::setTurret(double power) {
-	_turretPower = power;
-}
+void Shooter::setTurret(double power) { _turretPower = power; }
 
-void Shooter::setFire(double power) {
-	_firePower = power;
-}
+void Shooter::setFire(double power) { _firePower = power; }
 
 void Shooter::updateShooter(double dt) {
 	double setFlyPower = 0;

@@ -40,9 +40,6 @@ void Robot::RobotInit() {
 	shooter->SetDefault(std::make_shared<ShooterManualStrategy>("Shooter Manual strat", *shooter, robotMap.contGroup));
 	StrategyController::Register(shooter);
 
-
-
-
 	// Register our systems to be called via strategy
 	StrategyController::Register(drivetrain);
 	NTProvider::Register(drivetrain);
